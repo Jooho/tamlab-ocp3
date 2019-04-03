@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  nfs-provisioner:
+  - apiVersion: v1
+    appVersion: "2.0"
+    created: 2019-04-03T20:38:59.444181638Z
+    description: A Helm chart for Kubernetes
+    digest: ff19d0d377cedfc0a0e66ced07a773c4591ab4166224197113cda52d7fe7ae01
+    icon: https://img.icons8.com/ios/50/000000/mongrol.png
+    name: nfs-provisioner
+    urls:
+    - https://Jooho.github.io/Tutorial/nfs-provisioner-3.0.tgz
+    version: "3.0"
+generated: 2019-04-03T20:38:59.443180291Z

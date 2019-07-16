@@ -1,0 +1,57 @@
+quota_cores: 100 
+quota_ram: 120000
+
+user_roles:
+- admin
+- member
+
+ssh_key: "{{ lookup('env','HOME') }}/.ssh/id_rsa.pub"
+
+security_grp_name: ocp3_security_grp
+security_grp_rules:
+- { protocol: "tcp", remote_ip_prefix: 0.0.0.0/0 }
+- { protocol: "udp", remote_ip_prefix: 0.0.0.0/0 }
+- { protocol: "icmp", remote_ip_prefix: 0.0.0.0/0 }
+
+
+master_flavors:
+- { name: "master_small", ram: 4096, vcpus: 2, disk: 50 }
+- { name: "master_mid", ram: 6144, vcpus: 3, disk: 50 }
+- { name: "master_big", ram: 8192, vcpus: 4, disk: 50 }
+
+
+node_flavors:
+- { name: "node_small", ram: 4096, vcpus: 2, disk: 50 }
+- { name: "node_mid", ram: 6144, vcpus: 3, disk: 50 }
+- { name: "node_big", ram: 8192, vcpus: 4, disk: 50 }
+
+network_name: ocp3_network
+osp_subnet: { name: "ocp_subnet", cidr: 11.11.11.0/24 }
+intrim_dns_server: 11.11.11.200
+router_name: ocp3_router
+external_network_name: public
+
+############## Do not update ##################
+#os_admin:
+#  auth:
+#      auth_url: "{{ auth_url }}"
+#      username: "{{ admin_user }}"
+#      password: "{{ admin_user_pw }}"
+#      project_name: "{{ admin_project }}"
+#      user_domain_name: "{{ user_domain }}"
+#      project_domain_name: "{{ project_domain }}"
+#  auth_type: password
+#  region_name: "{{ region }}"
+#  auth_version: "{{ auth_api }}"
+#
+#os_project:
+#  auth:
+#      auth_url: "{{ auth_url }}"
+#      username: "{{ user_name }}"
+#      password: "{{ user_pw }}"
+#      project_name: "{{ user_project }}"
+#      user_domain_name: "{{ user_domain }}"
+#      project_domain_name: "{{ project_domain }}"
+#  auth_type: password
+#  region_name: "{{ region }}"
+#  auth_version: "{{ auth_api }}"

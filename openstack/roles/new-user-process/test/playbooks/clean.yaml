@@ -1,0 +1,46 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+  - ../openstack.yaml
+  - ../vars.yaml
+  tasks:
+  - name: Delete router
+    os_router:
+      state: absent
+      cloud: "{{ os_admin }}"
+      name: "{{ router_name }}"
+      project: "{{ user_project }}"
+
+  - name: Delete subnet
+    os_subnet:
+      state: absent
+      cloud: "{{ os_admin }}"
+      name: "{{ osp_subnet.name }}"
+      project: "{{ user_project }}"
+
+  - name: Delete network
+    os_network:
+      state: absent
+      cloud: "{{ os_admin }}"
+      name: "{{ network_name }}"
+      project: "{{ user_project }}"
+
+  - name: Delete security grp
+    os_security_group:
+      state: absent
+      cloud: "{{ os_admin }}"
+      name: "{{ security_grp_name }}"
+      project: "{{ user_project }}"
+
+  - name: Delete project
+    os_project:
+      state: absent
+      cloud: "{{ os_admin }}"
+      name: "{{ user_project }}"
+  
+  - name: Delete user
+    os_user:
+      state: absent
+      cloud: "{{ os_admin }}"
+      name: "{{ user_name }}"
+

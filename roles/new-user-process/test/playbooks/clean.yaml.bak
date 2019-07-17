@@ -25,6 +25,23 @@
       name: "{{ network_name }}"
       project: "{{ user_project }}"
 
+  - name: Delete keypair
+    os_keypair:
+      state: absent
+      cloud: "{{ os_project }}"
+      name: "{{ user_name }}"
+ 
+  - name: Add Security Group Rules
+    os_security_group_rule:
+      state: absent
+      cloud: "{{ os_admin }}"
+      security_group: "{{ security_grp_name }}"
+      project: "{{ user_project }}"
+      protocol: "{{ item.protocol }}"
+      remote_ip_prefix: "{{ item.remote_ip_prefix }}"
+    with_items:
+    - "{{ security_grp_rules }}"
+ 
   - name: Delete security grp
     os_security_group:
       state: absent

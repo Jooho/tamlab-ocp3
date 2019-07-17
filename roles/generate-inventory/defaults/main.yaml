@@ -1,0 +1,6 @@
+use_crio: false
+use_storage_class: false
+ocp_version: 3.11
+
+ocp_dns_domain: example.com
+ocp_cluster_subdomain: apps.{{ ocp_dns_domain }}

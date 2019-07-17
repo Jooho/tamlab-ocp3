@@ -1,0 +1,5 @@
+- name: Generate inventory
+  template: 
+    src: hosts.j2
+    dest: "{{ lookup('env','PWD') }}/hosts
+    

@@ -1,0 +1,36 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+  - ../openstack.yaml
+  - ../vars.yaml
+  tasks:
+  - name: Check instance
+    block:
+    - os_server_facts:
+        cloud: "{{ os_admin }}"
+        name: "{{ user_name }}"
+        server: "{{ instance_name }}"
+   
+    - fail:
+        msg: "Instance is not created"
+      when: openstack_server|length == 0
+
+#  - name: Check project
+#    block:
+#    - os_project_facts:
+#        cloud: "{{ os_admin }}"
+#        name: "{{ user_project }}"
+#        domain: "{{ user_domain }}"
+#    - fail:
+#        msg: "Project is not created"
+#      when: openstack_projects|length == 0
+#
+#  - name: Check network
+#    block:
+#    - os_networks_facts:
+#        cloud: "{{ os_admin }}"
+#        name: "{{ network_name }}"
+#    - fail:
+#        msg: "Network is not created"
+#      when: openstack_networks|length == 0
+

@@ -1,0 +1,42 @@
+
+# Mandatory
+
+## Openstack
+user_name: jlee
+user_pw: redhat
+user_project: default
+do_not_update_user_info: false
+
+## OCP
+master_vms: 3
+infra_vms: 1
+app_vms: 1
+cluster_name: ocp3U11
+domain_name: test 
+
+
+# Optional Variables
+master_node_prefix: master
+master_node_flavor: master_small
+infra_node_prefix: infra
+infra_node_flavor: node_small
+app_node_prefix: app
+app_node_flavor: node_small
+lb_node_prefix: lb
+app_node_flavor: node_small
+
+ocp_param_dir: "{{ current_path }}/vars"
+ocp_version: 3.11
+ocp_short_version: "{{ ocp_version|regex_replace('\\.')}}"
+ocp_interim_dns_use: true
+ocp_interim_dns_ip: 11.11.11.100
+ocp_dns_domain: tamlab.brq
+ocp_cluster_subdomain: "cloudapps.{{ocp_dns_domain}}"
+ocp_master_cluster_hostname: "ocp-webconsole.{{ocp_dns_domain}}"
+ocp_ansible_playbook_path: /tmp/openshift-ansible
+
+
+ocp_container_engine: docker
+ocp_container_engine_storage_type: overlay2
+ocp_container_engine_storage_size: 50G
+ocp_container_engine_storage_disk: vdb

@@ -1,0 +1,10 @@
+- hosts: localhost
+  gather_facts: no
+  tasks: 
+  - import_role:
+      name: create-instance
+    vars:
+      instance_name: master_0
+      instance_image: RHEL7
+      instance_flavor: master_small
+      ocp_group: master

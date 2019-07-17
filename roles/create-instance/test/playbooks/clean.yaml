@@ -1,0 +1,30 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+  - ../openstack.yaml
+  - ../vars.yaml
+  tasks:
+  - name: Delete instance
+    os_server:  
+      state: absent
+      cloud: "{{ os_project }}"
+      name: "{{ instance_name }}"
+      delete_fip: yes
+      terminate_volume: yes
+      nics:
+       - port-name: "{{ instance_name }}"
+
+
+  - name: Delete Port
+    os_port:
+      state: absent
+      cloud: "{{ os_project }}"
+      name: "{{ instance_name }}"
+      network: "{{ network_name }}"
+
+  - block:
+    - import_role:
+        name: new-user-process
+      vars:
+        op: delete 
+    when: retest is not defined

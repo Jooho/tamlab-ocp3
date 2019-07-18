@@ -9,8 +9,10 @@ osp_subnet: { name: "test_create-instance_subnet", cidr: 21.21.21.0/24 }
 
 
 
-instance_name: test_create-instance
+instance_name: test_create-instance.example.com
 instance_image: RHEL7
 instance_flavor: master_small
 external_network_name: public
 ocp_group: master
+dns_domain: gsslab.brq2.redhat.com
+

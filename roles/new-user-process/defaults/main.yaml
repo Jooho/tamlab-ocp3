@@ -33,27 +33,3 @@ intrim_dns_server: 11.11.11.200
 router_name: ocp3_router
 external_network_name: public
 
-############## Do not update ##################
-#os_admin:
-#  auth:
-#      auth_url: "{{ auth_url }}"
-#      username: "{{ admin_user }}"
-#      password: "{{ admin_user_pw }}"
-#      project_name: "{{ admin_project }}"
-#      user_domain_name: "{{ user_domain }}"
-#      project_domain_name: "{{ project_domain }}"
-#  auth_type: password
-#  region_name: "{{ region }}"
-#  auth_version: "{{ auth_api }}"
-#
-#os_project:
-#  auth:
-#      auth_url: "{{ auth_url }}"
-#      username: "{{ user_name }}"
-#      password: "{{ user_pw }}"
-#      project_name: "{{ user_project }}"
-#      user_domain_name: "{{ user_domain }}"
-#      project_domain_name: "{{ project_domain }}"
-#  auth_type: password
-#  region_name: "{{ region }}"
-#  auth_version: "{{ auth_api }}"

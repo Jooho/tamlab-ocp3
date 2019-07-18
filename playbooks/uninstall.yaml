@@ -1,19 +1,23 @@
 - hosts: localhost
   gather_facts: no
-  tasks: 
-  - name: Create Master
-    include_role:
+  vars_files:
+  - ../openstack.yaml
+  - ../vars/all
+  tasks:
+  - name: Delete instances
+    include_role: 
       name: manage-instance
     vars:
       instance_name: "{{ master_node_prefix }}_{{ num }}.{{ cluster_name }}.{{ dns_domain }}"
       instance_image: "{{ vm_image }}"
       instance_flavor: "{{ master_node_flavor }}"
       ocp_group: master
+      op: delete
     loop: "{{ range(1,master_vms|int + 1,1)|list }}"
     loop_control:
       loop_var: num
 
-  - name: Create Infra
+  - name: Delete Infra
     include_role:
       name: manage-instance
     vars:
@@ -21,11 +25,12 @@
       instance_image: "{{ vm_image }}"
       instance_flavor: "{{ infra_node_flavor }}"
       ocp_group: infra
+      op: delete
     loop: "{{ range(1,infra_vms|int + 1,1)|list }}"
     loop_control:
       loop_var: num
 
-  - name: Create App
+  - name: Delete App
     include_role:
       name: manage-instance
     vars:
@@ -33,17 +38,37 @@
       instance_image: "{{ vm_image }}"
       instance_flavor: "{{ app_node_flavor }}"
       ocp_group: app
+      op: delete
     loop: "{{ range(1,app_vms|int + 1,1)|list }}"
     loop_control:
       loop_var: num
 
-  - name: Create LB(Util node)
+  - name: Delete LB(Util node)
     include_role:
       name: manage-instance
     vars:
       instance_name: "{{ lb_node_prefix }}.{{ cluster_name }}.{{ dns_domain }}"
       instance_image: "{{ vm_image }}"
       instance_flavor: "{{ lb_node_flavor }}"
-      fixed_ip: "11.11.11.100"
+      fixed_ip: 11.11.11.200
       ocp_group: lb
+      op: delete
+
+  - name: Delete hosts files
+    shell: "rm {{ item }}"
+    with_items:
+    - "{{ lookup('env','PWD')}}/hosts*"
+    - "{{ lookup('env','PWD')}}/ocp_hosts"
+
+  - name: Create null hosts file
+    file:
+      path: "{{ lookup('env','PWD')}}/hosts"
+      state: touch
+
+  - block:
+    - import_role:
+        name: new-user-process
+      vars:
+        op: delete
+    when: retest is not defined
 

@@ -1,4 +1,4 @@
-# Basic
+i# Basic
 ansible_ssh_user: cloud-user
 ansible_become: true
 debug_level: 2
@@ -90,3 +90,4 @@ openshift_cluster_monitoring_operator_install={{ use_monitoring | default('false
 {% if use_storage_class|bool %}
 openshift_enable_unsupported_configurations=true
 {% endif %}
+

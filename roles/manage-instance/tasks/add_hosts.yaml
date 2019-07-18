@@ -3,16 +3,18 @@
 
 - name: Add masters to host groups
   add_host:
-    name: "{{ openstack_servers[0]['OS-EXT-SRV-ATTR:hypervisor_hostname'] }}"
-    ip: "{{ openstack_servers[0]['private_v4'] }}"
+    name: "{{ openstack_servers[0]['name'] }}"
+    ansible_host: "{{ openstack_servers[0]['public_v4'] }}"
+    private_ip: "{{ openstack_servers[0]['private_v4'] }}"
     groups: all_nodes, masters, etcd,  nodes, broker_sub_nodes
     openshift_node_group_name: node-config-master
   when: ocp_group == 'master'
 
 - name: Add infra instances to host group
   add_host:
-    name: "{{ openstack_servers[0]['OS-EXT-SRV-ATTR:hypervisor_hostname'] }}"
-    ip: "{{ openstack_servers[0]['private_v4'] }}"
+    name: "{{ openstack_servers[0]['name'] }}"
+    ansible_host: "{{ openstack_servers[0]['public_v4'] }}"
+    private_ip: "{{ openstack_servers[0]['private_v4'] }}"
     groups: all_nodes, nodes, infra_nodes, broker_sub_nodes 
     openshift_node_group_name: node-config-infra
   when: ocp_group == 'infra'
@@ -20,17 +22,19 @@
 
 - name: Add App instances to host group
   add_host:
-    name: "{{ openstack_servers[0]['OS-EXT-SRV-ATTR:hypervisor_hostname'] }}"
-    ip: "{{ openstack_servers[0]['private_v4'] }}"
+    name: "{{ openstack_servers[0]['name'] }}"
+    ansible_host: "{{ openstack_servers[0]['public_v4'] }}"
+    private_ip: "{{ openstack_servers[0]['private_v4'] }}"
     groups: all_nodes, nodes, app_nodes, node_sub_nodes 
-    openshift_node_group_name: "{% if infra_node_vms is not defined %}node-config-infra{% else %}node-config-compute{% endif %}"
+    openshift_node_group_name: node-config-compute
   when: ocp_group == 'app'
 
 - name: Add LB instances to host group
   add_host:
-    name: "{{ openstack_servers[0]['OS-EXT-SRV-ATTR:hypervisor_hostname'] }}"
-    ip: "{{ openstack_servers[0]['private_v4'] }}"
-    groups: all_nodes, lb, broker_sub_nodes
+    name: "{{ openstack_servers[0]['name'] }}"
+    ansible_host: "{{ openstack_servers[0]['public_v4'] }}"
+    private_ip: "{{ openstack_servers[0]['private_v4'] }}"
+    groups: all_nodes, lb, util, broker_sub_nodes
     openshift_node_labels:
       role: lb
   when: ocp_group == 'lb'

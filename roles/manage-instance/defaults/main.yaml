@@ -1,0 +1,7 @@
+dns_domain: example.com
+security_grp_name: ocp3_security_grp
+network_name: ocp3_network
+external_network_name: public
+op: create
+state_value: present
+docker_lvm_size: 50

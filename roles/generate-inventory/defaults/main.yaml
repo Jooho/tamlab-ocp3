@@ -1,6 +1,22 @@
-use_crio: false
-use_storage_class: false
+## OCP param
+ocp_use_crio: false
 ocp_version: 3.11
 
 ocp_dns_domain: example.com
 ocp_cluster_subdomain: apps.{{ ocp_dns_domain }}
+ocp_master_cluster_hostname: masters-private.{{ user_name }}.{{ocp_dns_domain}}
+ocp_master_cluster_public_hostname: ocp-console.{{ user_name }}.{{ocp_dns_domain}}
+ocp_hosted_registry_replicas: "{{ groups['infra_nodes']|lenght }}"
+
+ocp_svc_catalog_install: no
+ocp_metric_install: yes
+ocp_prometheous_install: yes
+ocp_logging_install: yes
+ocp_storage_class_install: no
+
+ocp_hosts_dest_path: "{{ lookup('env', 'PWD') }}"
+
+## Must Set
+#oreg_auth_user: "{{ oreg_auth_user_name }}"
+#oreg_auth_password: "{{ oreg_auth_token }}"
+

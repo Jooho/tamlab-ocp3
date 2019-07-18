@@ -1,0 +1,91 @@
+ansible_ssh_user=cloud-user
+ansible_become=true
+debug_level=2
+containerized=false
+osm_use_cockpit=true
+openshift_disable_check=disk_availability,memory_availability
+dynamic_volumes_check False
+openshift_enable_unsupported_configurations=True
+openshift_release="{{ ocp_version }}"
+openshift_deployment_type=openshift-enterprise
+
+
+# Cluster
+openshift_master_default_subdomain="{{ocp_cluster_subdomain}}"
+openshift_master_cluster_hostname="{{ ocp_master_cluster_hostname }}"
+openshift_master_cluster_public_hostname="{{ ocp_master_cluster_public_hostname }}"
+openshift_master_cluster_method="native"
+osm_default_node_selector="node-role.kubernetes.io/compute=true"
+openshift_node_groups=[{'name': 'node-config-master', 'labels': ['node-role.kubernetes.io/master=true', 'role=master','region=mgmt']}, {'name': 'node-config-infra', 'labels': ['node-role.kubernetes.io/infra=true','role=infra','region=infra','zone=default']}, {'name': 'node-config-compute', 'labels': ['node-role.kubernetes.io/compute=true', 'role=app','region=app', 'zone=default'], 'edits': [{ 'key': 'kubeletArguments.pods-per-core','value': ['20']}]}]
+oreg_auth_user="{{ oreg_auth_user_name }}"
+oreg_auth_password="{{ oreg_auth_token }}"
+
+#openshift_master_api_port=443
+#openshift_master_console_port=443
+
+
+# Identity
+#openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/ocp_htpasswd'}]
+openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider'}]
+openshift_master_htpasswd_users={'joe': '$apr1$e/IdW2fy$C81mY.UvlYLTjbsg3zvG./', 'sue': '$apr1$WnnI.8Ce$KDA5pr/UsmS3wtL5lEr7d/'}
+
+
+# Networking
+os_sdn_network_plugin_name="redhat/openshift-ovs-multitenant"
+openshift_portal_net="172.30.0.0/16"
+osm_cluster_network_cidr="10.128.0.0/14"
+osm_host_subnet_length="8"
+
+
+# Enable API service auditing
+openshift_master_audit_config={"enabled": true, "auditFilePath": "/etc/origin/master/openpaas-oscp-audit.log", "maximumFileRetentionDays": 14, "maximumFileSizeMegabytes": 500, "maximumRetainedFiles": 5}
+#openshift_master_audit_config={"enabled": true}
+
+
+# Docker
+{% if not ocp_use_crio|bool %}
+docker_version="{{ ocp_docker_version| default('1.13.1') }}"
+openshift_docker_options='--log-driver=json-file --signature-verification=False --selinux-enabled --log-opt max-size=1M --log-opt max-file=3 -l warn --ipv6=false'
+{% endif %}
+
+# Install and run cri-o.
+{% if ocp_use_crio|bool %}
+openshift_use_crio=True
+openshift_use_crio_only=False
+openshift_crio_enable_docker_gc=True
+openshift_crio_docker_gc_node_selector={'runtime': 'cri-o'}
+{% endif %}
+
+
+# Registry
+openshift_hosted_registry_selector='node-role.kubernetes.io/infra=true'
+openshift_hosted_registry_cert_expire_days=730
+
+{% if ocp_storage_class_install|bool %}
+openshift_hosted_registry_storage_kind=nfs
+openshift_hosted_registry_storage_access_modes=['ReadWriteMany']
+openshift_hosted_registry_storage_host="{{nfs_server_ip}}"
+openshift_hosted_registry_storage_nfs_directory="{{nfs_mount_point}}"
+openshift_hosted_registry_storage_volume_name=registry
+openshift_hosted_registry_storage_volume_size=5Gi
+{% endif %}
+
+
+# Router
+openshift_hosted_router_selector='node-role.kubernetes.io/infra=true'
+openshift_hosted_router_replicas="2"
+
+# Metrics
+openshift_metrics_install_metrics={{ ocp_metric_install }}
+
+# Logging
+#openshift_logging_install_logging={{ ocp_logging_install }}
+
+# Cluster monitoring
+openshift_cluster_monitoring_operator_install={{ ocp_prometheous_install }}
+
+
+{% if ocp_storage_class_install|bool %}
+openshift_enable_unsupported_configurations=true
+{% endif %}
+

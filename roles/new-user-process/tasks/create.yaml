@@ -93,6 +93,7 @@
      ip_version: 4
      dns_nameservers:
         - "{{ intrim_dns_server }}"
+        - 10.37.192.157
 
 - name: Create router for private and external routing
   os_router:

@@ -1,0 +1,16 @@
+---
+- name: Register node to rhsm and attach pool using id
+  redhat_subscription:
+    username: "{{ subs_id }}"
+    password: "{{ subs_pw }}"
+    pool_ids: "{{ pool_id }}"
+    state: present
+    force_register: yes
+  register: task_result
+  until: task_result|success
+  retries: 10
+  delay: 1
+  ignore_errors: yes
+  become: yes
+  become_user: root
+- debug: var=task_result

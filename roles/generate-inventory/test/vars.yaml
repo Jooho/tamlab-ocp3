@@ -1,0 +1,6 @@
+user_name: test_generate-inventory_user
+
+## Must Set
+oreg_auth_user_name: ""
+oreg_auth_token: ""
+

@@ -11,21 +11,25 @@ nodes
 
 [masters]
 {% for item in groups.masters -%}
-{{item}}
+{{item}} ansible_host='{{ hostvars[item].ansible_host }}' private_ip='{{ hostvars[item].private_ip }}'
 {% endfor %}
 
 [etcd]
 {% for item in groups.masters -%}
-{{item}}
+{{item}} ansible_host='{{ hostvars[item].ansible_host }}' private_ip='{{ hostvars[item].private_ip }}'
 {% endfor %}
 
 [nodes]
 {% for item in groups.nodes -%}
-{{item}}   openshift_node_group_name='{{hostvars[item].openshift_node_group_name}}'
+{{item}}  ansible_host='{{ hostvars[item].ansible_host }}' private_ip='{{ hostvars[item].private_ip }}' openshift_node_group_name='{{hostvars[item].openshift_node_group_name}}'
 {% endfor %}
 
 {% if (groups.masters | length) >1 %}
 [lb]
-{{groups.lb.0}}
+{{groups.lb.0}} ansible_host='{{ hostvars[groups.lb.0].ansible_host }}' private_ip='{{ hostvars[groups.lb.0].private_ip }}'
 {% endif %}
 
+{% if (groups.masters | length) == 1 %}
+[util]
+{{groups.util.0}} ansible_host='{{ hostvars[groups.util.0].ansible_host }}' private_ip='{{ hostvars[groups.util.0].private_ip }}'
+{% endif %}

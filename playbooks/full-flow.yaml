@@ -4,29 +4,33 @@
 #- name: Create VMs(masters/nodes/lb<util>)
 #  import_playbook: create-vms.yaml
 #
-#- name: Wait for lb is running
-#  wait_for: 
-#    host: "{{ hostvars[groups.lb.0].ansible_host }}"
-#    port: 22
-#  when: master_vms|length >1
-#
-#- name: Wait for util is running
-#  wait_for: 
-#    host: "{{ hostvars[groups.util.0].ansible_host }}"
-#    port: 22
-#  when: master_vms|length == 1
-#
 #- name: Generate ansible inventory file
-#  mport_playbook: generate-ansible-inventory.yaml
+#  import_playbook: generate-ansible-inventory.yaml
+#
+#- hosts: localhost
+#  gather_facts: no
+#  tasks:
+#  - name: Wait for lb is running
+#    wait_for: 
+#      host: "{{ hostvars[groups.lb.0].ansible_host }}"
+#      port: 22
+#    when: master_vms >1
+#  
+#  - name: Wait for util is running
+#    wait_for: 
+#      host: "{{ hostvars[groups.util.0].ansible_host }}"
+#      port: 22
+#    when: master_vms == 1
+#
 #
 #- name: Attach subscription
 #  import_playbook: attach-subscription.yaml
-#
-#- name: DNS setup (install/config)
-#  import_playbook: setup-dnsmasq.yaml
-#
-#- name: Install OCP Host Pre-Requisites
-#  import_playbook: ocp-prereq.yaml 
+
+- name: DNS setup (install/config)
+  import_playbook: setup-dnsmasq.yaml
+
+- name: Install OCP Host Pre-Requisites
+  import_playbook: ocp-prereq.yaml 
 
 - name: Install OCP
   import_playbook: ocp-install.yaml

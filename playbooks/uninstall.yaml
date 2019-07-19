@@ -55,10 +55,11 @@
       op: delete
 
   - name: Delete hosts files
-    shell: "rm {{ item }}"
+    shell: "rm -rf {{ item }}"
     with_items:
     - "{{ lookup('env','PWD')}}/hosts*"
     - "{{ lookup('env','PWD')}}/ocp_hosts"
+    ignore_errors: yes
 
   - name: Create null hosts file
     file:

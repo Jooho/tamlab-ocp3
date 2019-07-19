@@ -3,13 +3,13 @@
   pre_tasks:
   - name: install dnsmasq
     import_role:
-      name: Jooho.dnsmasq_operate
+      name: dnsmasq_operate
     vars:
       dns_ops: install
   tasks:
   - name: Set DNSMasq for public master url
     import_role:
-      name: Jooho.dnsmasq_operate
+      name: dnsmasq_operate
     vars:
       rewrite_conf: yes
       rewrite_forward_conf: yes
@@ -21,7 +21,7 @@
 
   - name: Set DNSMasq for private master url
     import_role:
-      name: Jooho.dnsmasq_operate
+      name: dnsmasq_operate
     vars:
       rewrite_conf: no
       rewrite_forward_conf: no
@@ -32,7 +32,7 @@
 
   - name: Set DNSMasq for subdomain 
     import_role:
-      name: Jooho.dnsmasq_operate
+      name: dnsmasq_operate
     vars:
       rewrite_conf: no
       rewrite_forward_conf: no
@@ -43,7 +43,7 @@
 
   - name: Set DNSMasq for hostname
     include_role:
-      name: Jooho.dnsmasq_operate
+      name: dnsmasq_operate
     vars:
       rewrite_conf: no
       rewrite_forward_conf: no

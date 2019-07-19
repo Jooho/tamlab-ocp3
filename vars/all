@@ -29,7 +29,7 @@ lb_node_flavor: node_small
 #ocp_param_dir: "{{ current_path }}/vars"
 #ocp_version: 3.11
 #ocp_short_version: "{{ ocp_version|regex_replace('\\.')}}"
-ocp_dns_ip: 11.11.11.200
+ocp_dns_ip: 11.11.11.100
 ocp_dns_forwarder: 10.37.192.157
 ocp_cluster_subdomain: "cloudapps.{{dns_domain}}"
 ocp_master_cluster_public_hostname: "ocp-console.{{dns_domain}}"

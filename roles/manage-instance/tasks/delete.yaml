@@ -17,12 +17,12 @@
 #       hostname: "{{ instance_name }}.{{ dns_domain }}"
 #       fqdn: "{{ instance_name }}.{{ dns_domain }}"
 
-- name: Delete a volume for docker
-  os_volume:
-     state: absent
-     cloud: "{{ os_project }}"
-     size: "{{ docker_lvm_size }}"
-     display_name: "{{ instance_name }}-docker"
+#- name: Delete a volume for docker
+#  os_volume:
+#     state: absent
+#     cloud: "{{ os_project }}"
+#     size: "{{ docker_lvm_size }}"
+#     display_name: "{{ instance_name }}-docker"
 
 - name: Delete static port allocations if an instance does not exist
   os_port:
@@ -31,13 +31,13 @@
      name: "{{ instance_name }}"
      network: "{{ network_name }}"
 
-- name: Delete floating ip for node
-  os_floating_ip:
-     cloud: "{{ os_project }}"
-     state: absent
-     reuse: yes
-     server: "{{ instance_name }}"
-     network: "{{ external_network_name }}"
-     wait: true
-     timeout: 180
+#- name: Delete floating ip for node
+#  os_floating_ip:
+#     cloud: "{{ os_project }}"
+#     state: absent
+#     reuse: yes
+#     server: "{{ instance_name }}"
+#     network: "{{ external_network_name }}"
+#     wait: true
+#     timeout: 180
 

@@ -5,7 +5,7 @@
   add_host:
     name: "{{ openstack_servers[0]['name'] }}"
     ansible_host: "{{ openstack_servers[0]['public_v4'] }}"
-    private_ip: "{{ openstack_servers[0]['private_v4'] }}"
+    private_v4: "{{ openstack_servers[0]['private_v4'] }}"
     groups: all_nodes, masters, etcd,  nodes, broker_sub_nodes
     openshift_node_group_name: node-config-master
   when: ocp_group == 'master'
@@ -14,7 +14,7 @@
   add_host:
     name: "{{ openstack_servers[0]['name'] }}"
     ansible_host: "{{ openstack_servers[0]['public_v4'] }}"
-    private_ip: "{{ openstack_servers[0]['private_v4'] }}"
+    private_v4: "{{ openstack_servers[0]['private_v4'] }}"
     groups: all_nodes, nodes, infra_nodes, broker_sub_nodes 
     openshift_node_group_name: node-config-infra
   when: ocp_group == 'infra'
@@ -24,7 +24,7 @@
   add_host:
     name: "{{ openstack_servers[0]['name'] }}"
     ansible_host: "{{ openstack_servers[0]['public_v4'] }}"
-    private_ip: "{{ openstack_servers[0]['private_v4'] }}"
+    private_v4: "{{ openstack_servers[0]['private_v4'] }}"
     groups: all_nodes, nodes, app_nodes, node_sub_nodes 
     openshift_node_group_name: node-config-compute
   when: ocp_group == 'app'
@@ -33,7 +33,7 @@
   add_host:
     name: "{{ openstack_servers[0]['name'] }}"
     ansible_host: "{{ openstack_servers[0]['public_v4'] }}"
-    private_ip: "{{ openstack_servers[0]['private_v4'] }}"
+    private_v4: "{{ openstack_servers[0]['private_v4'] }}"
     groups: all_nodes, lb, util, broker_sub_nodes
     openshift_node_labels:
       role: lb

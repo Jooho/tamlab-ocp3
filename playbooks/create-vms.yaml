@@ -47,3 +47,6 @@
       fixed_ip: "11.11.11.100"
       ocp_group: lb
 
+  - name: Give some time to start LB up
+    pause:
+      minutes: 1

@@ -4,24 +4,8 @@
 
 # TO-DO
 # will use redhat_repository module 
-#- name: Install the required rpms
-#  shell: yum install -y wget git yum-utils net-tools bind-utils iptables-services bridge-utils bash-completion kexec-tools sos psacct openshift-ansible atomic-openshift-excluder atomic-openshift-docker-excluder skopeo
-#  register: rpm_install
-#  async: 1800
-#  poll: 0
-
-#- name: Wait for Enable OpenShift repositories
-#  async_status: jid="{{ rpm_install.ansible_job_id }}"
-#  register: jobs
-#  until: jobs.finished
-#  retries: 180
-#  delay: 10
-
-
 - name: Install the required rpms
-  yum:
-    name: "{{ install_packages }}"
-    state: present
+  shell: yum install -y wget git yum-utils net-tools bind-utils iptables-services bridge-utils bash-completion kexec-tools sos psacct openshift-ansible atomic-openshift-excluder atomic-openshift-docker-excluder skopeo
   register: rpm_install
   async: 1800
   poll: 0
@@ -32,6 +16,22 @@
   until: jobs.finished
   retries: 180
   delay: 10
+
+
+#- name: Install the required rpms
+#  yum:
+#    name: "{{ install_packages }}"
+#    state: present
+#  register: rpm_install
+#  async: 1800
+#  poll: 0
+#
+#- name: Wait for required packages
+#  async_status: jid="{{ rpm_install.ansible_job_id }}"
+#  register: jobs
+#  until: jobs.finished
+#  retries: 180
+#  delay: 10
 
 - name: Run openshift excluder
   command: atomic-openshift-excluder unexclude

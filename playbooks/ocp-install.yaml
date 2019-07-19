@@ -10,28 +10,28 @@
   gather_facts: no
   become: yes
   tasks:
-#  - name: Check out official openshift ansible github repository
-#    git:
-#      repo: "https://github.com/openshift/openshift-ansible.git"
-#      dest: "/root/openshift-ansible"
-#      version: "release-3.11"
-#    ignore_errors: yes
-#
-#  - name: Put ssh private key
-#    copy: 
-#      src: "{{ lookup('env','HOME')}}/.ssh/id_rsa"
-#      dest: "/root/.ssh/id_rsa"
-#      mode: 600
-#
-#  - name: Put ocp hosts file
-#    copy: 
-#      src: "{{ lookup('env','PWD')}}/hosts_{{ user_name }}"
-#      dest: "/root/openshift-ansible/hosts"
-#   
-#  - name: Put ansible.cfg file
-#    copy: 
-#      src: "{{ lookup('env','PWD')}}/ansible.cfg"
-#      dest: "/root/openshift-ansible/ansible.cfg"
+  - name: Check out official openshift ansible github repository
+    git:
+      repo: "https://github.com/openshift/openshift-ansible.git"
+      dest: "/root/openshift-ansible"
+      version: "release-3.11"
+    ignore_errors: yes
+
+  - name: Put ssh private key
+    copy: 
+      src: "{{ lookup('env','HOME')}}/.ssh/id_rsa"
+      dest: "/root/.ssh/id_rsa"
+      mode: '0600'
+
+  - name: Put ocp hosts file
+    copy: 
+      src: "{{ lookup('env','PWD')}}/hosts_{{ user_name }}"
+      dest: "/root/openshift-ansible/hosts"
+   
+  - name: Put ansible.cfg file
+    copy: 
+      src: "{{ lookup('env','PWD')}}/ansible.cfg"
+      dest: "/root/openshift-ansible/ansible.cfg"
   
   - name: Execute OCP installation Ansible
     shell: "ansible-playbook -i ./hosts playbooks/deploy_cluster.yml"

@@ -1,24 +1,31 @@
+[OSEv3:children]
+masters
+etcd
+nodes
+lb 
+
+[OSEv3:vars]
 ansible_ssh_user=cloud-user
 ansible_become=true
 debug_level=2
 containerized=false
 osm_use_cockpit=true
 openshift_disable_check=disk_availability,memory_availability
-dynamic_volumes_check=False
+dynamic_volumes_check False
 openshift_enable_unsupported_configurations=True
-openshift_release="{{ ocp_version }}"
+openshift_release="3.11"
 openshift_deployment_type=openshift-enterprise
 
 
 # Cluster
-openshift_master_default_subdomain="{{ocp_cluster_subdomain}}"
-openshift_master_cluster_hostname="{{ ocp_master_cluster_hostname }}"
-openshift_master_cluster_public_hostname="{{ ocp_master_cluster_public_hostname }}"
+openshift_master_default_subdomain="cloudapps.gsslab.brq2.redhat.com"
+openshift_master_cluster_hostname="masters-private.jlee.example.com"
+openshift_master_cluster_public_hostname="ocp-console.gsslab.brq2.redhat.com"
 openshift_master_cluster_method="native"
 osm_default_node_selector="node-role.kubernetes.io/compute=true"
 openshift_node_groups=[{'name': 'node-config-master', 'labels': ['node-role.kubernetes.io/master=true', 'role=master','region=mgmt']}, {'name': 'node-config-infra', 'labels': ['node-role.kubernetes.io/infra=true','role=infra','region=infra','zone=default']}, {'name': 'node-config-compute', 'labels': ['node-role.kubernetes.io/compute=true', 'role=app','region=app', 'zone=default'], 'edits': [{ 'key': 'kubeletArguments.pods-per-core','value': ['20']}]}]
-oreg_auth_user="{{ oreg_auth_user_name }}"
-oreg_auth_password="{{ oreg_auth_token }}"
+oreg_auth_user="1979710|jlee"
+oreg_auth_password="eyJhbGciOiJSUzUxMiJ9.eyJzdWIiOiIxNmJhZDY0OTUzNDk0ZWJhOTc0OGVmNTg4MzExNDM4ZSJ9.LKmryn0kYY7Fed7NEpDN0xD4c_r-T6aT8VIy_AlG6wAwtHx1OWmVlCpaqeXZDEP_Jt102C2ETfAQjaHYvNIVVRVV0kFy2J4-YJIZO8oZQZGSEdP41Rny0dGGu7H68sN9WL0yScY6VAqq2e9dNVlaT8A01VUPnLzjhReN3F5QT4aIn1bsyE-Hz2_ed9jK0IbTQbouq0_lJa-w8Cw48RzF4uDePAUERJJvAaao5OvwJ7rIz1Z5j6ZWZodQlh9pBnkhM1-G-x7Jn432VMGrtQayCM8Eb1QjahxqlzD6llKjWNAYfmlRJADjfUmNz_aOADP2ZBwGV3IWurh_6Y4s2BVm2dDYcMV_iHmf-d_RQ4Erd8_XlqDj5tJNdcgJFK6xHOMwQzYI102ef1xalCGKlsc3gxx0cxE_XWlvAOvN5C0Fcot25wl_sSqu1wRgk3rE-lg9ZTSNRdIPb_G1GQWt6ZWbftrNxZT9BkmiRTY3SFOKuvu55OAKIlgVM8ffsBOCvWbSYeZMGvj2H-9_iklgfRIoEu2a-KZmTao-pz2tl2VKnkJn9BxvIhmnZmdGhUrmGe5DvRRKE2dYqFJFArK2XEzWUFjLH298byEXRmBhivAp2fiYSWkS_-VbwW3D4SrmT9g_q6ny1rqM1ZhniQMaLPRGdGQaQgxUOtQSxu5EVj8eBhY"
 
 #openshift_master_api_port=443
 #openshift_master_console_port=443
@@ -43,32 +50,16 @@ openshift_master_audit_config={"enabled": true, "auditFilePath": "/etc/origin/ma
 
 
 # Docker
-{% if not ocp_use_crio|bool %}
-docker_version="{{ ocp_docker_version| default('1.13.1') }}"
+docker_version="1.13.1"
 openshift_docker_options='--log-driver=json-file --signature-verification=False --selinux-enabled --log-opt max-size=1M --log-opt max-file=3 -l warn --ipv6=false'
-{% endif %}
 
 # Install and run cri-o.
-{% if ocp_use_crio|bool %}
-openshift_use_crio=True
-openshift_use_crio_only=False
-openshift_crio_enable_docker_gc=True
-openshift_crio_docker_gc_node_selector={'runtime': 'cri-o'}
-{% endif %}
 
 
 # Registry
 openshift_hosted_registry_selector='node-role.kubernetes.io/infra=true'
 openshift_hosted_registry_cert_expire_days=730
 
-{% if ocp_storage_class_install|bool %}
-openshift_hosted_registry_storage_kind=nfs
-openshift_hosted_registry_storage_access_modes=['ReadWriteMany']
-openshift_hosted_registry_storage_host="{{nfs_server_ip}}"
-openshift_hosted_registry_storage_nfs_directory="{{nfs_mount_point}}"
-openshift_hosted_registry_storage_volume_name=registry
-openshift_hosted_registry_storage_volume_size=5Gi
-{% endif %}
 
 
 # Router
@@ -76,16 +67,36 @@ openshift_hosted_router_selector='node-role.kubernetes.io/infra=true'
 openshift_hosted_router_replicas="2"
 
 # Metrics
-openshift_metrics_install_metrics={{ ocp_metric_install }}
+openshift_metrics_install_metrics=True
 
 # Logging
-#openshift_logging_install_logging={{ ocp_logging_install }}
+#openshift_logging_install_logging=True
 
 # Cluster monitoring
-openshift_cluster_monitoring_operator_install={{ ocp_prometheous_install }}
+openshift_cluster_monitoring_operator_install=True
 
 
-{% if ocp_storage_class_install|bool %}
-openshift_enable_unsupported_configurations=true
-{% endif %}
+
+[masters]
+master_1.ocp311.gsslab.brq2.redhat.com 
+master_2.ocp311.gsslab.brq2.redhat.com 
+master_3.ocp311.gsslab.brq2.redhat.com 
+
+[etcd]
+master_1.ocp311.gsslab.brq2.redhat.com 
+master_2.ocp311.gsslab.brq2.redhat.com 
+master_3.ocp311.gsslab.brq2.redhat.com 
+
+[nodes]
+master_1.ocp311.gsslab.brq2.redhat.com  openshift_node_group_name='node-config-master'
+master_2.ocp311.gsslab.brq2.redhat.com  openshift_node_group_name='node-config-master'
+master_3.ocp311.gsslab.brq2.redhat.com  openshift_node_group_name='node-config-master'
+infra_1.ocp311.gsslab.brq2.redhat.com  openshift_node_group_name='node-config-infra'
+infra_2.ocp311.gsslab.brq2.redhat.com  openshift_node_group_name='node-config-infra'
+infra_3.ocp311.gsslab.brq2.redhat.com  openshift_node_group_name='node-config-infra'
+app_1.ocp311.gsslab.brq2.redhat.com  openshift_node_group_name='node-config-compute'
+app_2.ocp311.gsslab.brq2.redhat.com  openshift_node_group_name='node-config-compute'
+
+[lb]
+lb.ocp311.gsslab.brq2.redhat.com 
 

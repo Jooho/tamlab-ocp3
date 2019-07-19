@@ -1,0 +1,30 @@
+[OSEv3:children]
+masters
+etcd
+nodes
+lb 
+
+
+[masters]
+master_1.ocp311.gsslab.brq2.redhat.com ansible_host=10.37.197.65 private_v4=11.11.11.19
+master_2.ocp311.gsslab.brq2.redhat.com ansible_host=10.37.197.74 private_v4=11.11.11.3
+master_3.ocp311.gsslab.brq2.redhat.com ansible_host=10.37.197.43 private_v4=11.11.11.8
+
+[etcd]
+master_1.ocp311.gsslab.brq2.redhat.com ansible_host=10.37.197.65 private_v4=11.11.11.19
+master_2.ocp311.gsslab.brq2.redhat.com ansible_host=10.37.197.74 private_v4=11.11.11.3
+master_3.ocp311.gsslab.brq2.redhat.com ansible_host=10.37.197.43 private_v4=11.11.11.8
+
+[nodes]
+master_1.ocp311.gsslab.brq2.redhat.com  ansible_host=10.37.197.65 private_v4=11.11.11.19 openshift_node_group_name=node-config-master
+master_2.ocp311.gsslab.brq2.redhat.com  ansible_host=10.37.197.74 private_v4=11.11.11.3 openshift_node_group_name=node-config-master
+master_3.ocp311.gsslab.brq2.redhat.com  ansible_host=10.37.197.43 private_v4=11.11.11.8 openshift_node_group_name=node-config-master
+infra_1.ocp311.gsslab.brq2.redhat.com  ansible_host=10.37.197.55 private_v4=11.11.11.26 openshift_node_group_name=node-config-infra
+infra_2.ocp311.gsslab.brq2.redhat.com  ansible_host=10.37.197.58 private_v4=11.11.11.11 openshift_node_group_name=node-config-infra
+infra_3.ocp311.gsslab.brq2.redhat.com  ansible_host=10.37.197.70 private_v4=11.11.11.23 openshift_node_group_name=node-config-infra
+app_1.ocp311.gsslab.brq2.redhat.com  ansible_host=10.37.197.50 private_v4=11.11.11.6 openshift_node_group_name=node-config-compute
+app_2.ocp311.gsslab.brq2.redhat.com  ansible_host=10.37.197.35 private_v4=11.11.11.7 openshift_node_group_name=node-config-compute
+
+[lb]
+lb.ocp311.gsslab.brq2.redhat.com ansible_host=10.37.197.85 private_v4=11.11.11.100
+

@@ -1,0 +1,13 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Gather user
+    os_user_facts:
+      cloud: "{{ os_admin }}"
+      name: "{{ user_name }}"
+
+  - name: Gather project
+    os_project_facts:
+      cloud: "{{ os_admin }}"
+      name: "{{ user_project }}"
+      domain: "{{ user_domain }}"

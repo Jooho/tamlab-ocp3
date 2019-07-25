@@ -1,0 +1,5 @@
+$ORIGIN {{ user_name }}.{{ cluster_name }}.{{ tamlab_dns_domain }}.
+ocp-console      IN      A       {{ lb_ip }}
+
+$ORIGIN {{ ocp_cluster_subdomain }}.
+*               IN      A       {{ lb_ip }}

@@ -1,0 +1,18 @@
+---
+- hosts: localhost
+  gather_facts: no
+  pre_tasks:
+  - name: Copy test tamlab.brq.db
+    copy:
+      src: tamlab.brq.db
+      dest: /tmp/tamlab.brq.db
+  tasks:
+  - import_role:
+      name: tamlab-dns-operate
+    vars:
+      op: add
+      conf_path: /tmp/test_ocp.conf
+      tamlab_brq_db_path: /tmp/tamlab.brq.db
+      user_name: test
+      ocp_cluster_subdomain: "apps.{{ user_name }}.tamlab.brq.redhat.com"
+      lb_ip: "1.1.1.1" 

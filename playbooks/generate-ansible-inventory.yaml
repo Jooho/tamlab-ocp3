@@ -5,3 +5,6 @@
       name: generate-inventory
     vars:
       hosts_dest_path: "{{ lookup('env','PWD') }}/hosts" 
+      ocp_hosts_dest_path: "{{ lookup('env','PWD') }}/hosts_{{ user_name }}" 
+      ocp_dns_domain: "{{ internal_dns_domain }}"
+

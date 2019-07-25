@@ -1,0 +1,13 @@
+- hosts: tamlab_dns_server
+  gather_facts: no
+  become: yes
+  pre_tasks:
+  - debug: msg="{{ hostvars[groups.lb.0].ansible_host}}"
+    delegate_to: localhost
+  tasks:  
+  - import_role:
+      name: tamlab-dns-operate
+    vars:
+      op: create
+      lb_ip: "{{ hostvars[groups.lb.0].ansible_host }}"
+

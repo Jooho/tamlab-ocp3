@@ -1,0 +1,9 @@
+---
+
+- name: Add dns records
+  import_tasks: ./create.yaml
+  when: op == 'create'
+
+- name: Delete dns records
+  import_tasks: ./delete.yaml
+  when: op == 'delete'

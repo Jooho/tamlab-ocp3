@@ -1,0 +1,9 @@
+---
+- hosts: lb,util
+  gather_facts: no
+  become: yes
+  tasks:
+  - import_role:
+      name: manage-haproxy
+    
+

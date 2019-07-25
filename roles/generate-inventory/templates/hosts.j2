@@ -2,6 +2,7 @@
 masters
 etcd
 nodes
+tamlab_dns_server
 {% if (groups.masters | length) > 1 %}lb {% endif %}
 
 
@@ -30,3 +31,6 @@ nodes
 [util]
 {{groups.util.0}} ansible_host={{ hostvars[groups.util.0].ansible_host }} private_v4={{ hostvars[groups.util.0].private_v4 }}
 {% endif %}
+
+[tamlab_dns_server]
+10.37.192.157 ansible_user=root

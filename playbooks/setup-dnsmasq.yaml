@@ -16,8 +16,8 @@
       forwarder_dns: "{{ ocp_dns_forwarder }}"
       dns_conf_name: OCP311
       dns_ops: add
-      new_ip: "{{ ocp_dns_ip }}"
-      new_hostname: "ocp-console.{{ dns_domain }}"
+      new_ip: "{{ hostvars[groups.lb.0].ansible_host }}"
+      new_hostname: "{{ ocp_master_cluster_public_hostname }}"
 
   - name: Set DNSMasq for private master url
     import_role:
@@ -28,7 +28,7 @@
       dns_conf_name: OCP311
       dns_ops: add
       new_ip: "{{ ocp_dns_ip }}"
-      new_hostname: "master-private.{{ dns_domain }}"
+      new_hostname: "master-private.{{ user_name }}.{{ internal_dns_domain }}"
 
   - name: Set DNSMasq for subdomain 
     import_role:
@@ -38,8 +38,8 @@
       rewrite_forward_conf: no
       dns_conf_name: OCP311
       dns_ops: add
-      new_ip: "{{ ocp_dns_ip }}"
-      new_hostname: ".app.{{ dns_domain }}"
+      new_ip: "{{ hostvars[groups.lb.0].ansible_host }}"
+      new_hostname: "{{ ocp_cluster_subdomain }}"
 
   - name: Set DNSMasq for hostname
     include_role:
@@ -53,3 +53,4 @@
       new_hostname: "{{ item }}"
     with_items:
     - "{{ groups['all'] }}"
+ 

@@ -10,12 +10,12 @@
   gather_facts: no
   become: yes
   tasks:
-  - name: Check out official openshift ansible github repository
-    git:
-      repo: "https://github.com/openshift/openshift-ansible.git"
-      dest: "/root/openshift-ansible"
-      version: "release-3.11"
-    ignore_errors: yes
+#  - name: Check out official openshift ansible github repository
+#    git:
+#      repo: "https://github.com/openshift/openshift-ansible.git"
+#      dest: "/root/openshift-ansible"
+#      version: "release-3.11"
+#    ignore_errors: yes
 
   - name: Put ssh private key
     copy: 
@@ -26,14 +26,13 @@
   - name: Put ocp hosts file
     copy: 
       src: "{{ lookup('env','PWD')}}/hosts_{{ user_name }}"
-      dest: "/root/openshift-ansible/hosts"
+      dest: "/root/hosts"
    
   - name: Put ansible.cfg file
     copy: 
       src: "{{ lookup('env','PWD')}}/ansible.cfg"
-      dest: "/root/openshift-ansible/ansible.cfg"
+      dest: "/etc/ansible/ansible.cfg"
+      backup: yes
   
   - name: Execute OCP installation Ansible
-    shell: "ansible-playbook -i ./hosts playbooks/deploy_cluster.yml"
-    args:
-      chdir: /root/openshift-ansible
+    shell: "ansible-playbook -i /root/hosts /usr/share/ansible/openshift-ansible/playbooks/deploy_cluster.yml -vvvv"

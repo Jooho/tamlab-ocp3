@@ -94,6 +94,8 @@
      dns_nameservers:
         - "{{ intrim_dns_server }}"
 
+
+
 - name: Create router for private and external routing
   os_router:
      state: present

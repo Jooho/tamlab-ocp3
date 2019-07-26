@@ -2,9 +2,9 @@
 ##### Mandatory #####
 
 ## Openstack
-user_name: jlee
-user_pw: redhat
-user_email: jlee@redhat.com
+user_name: CHANGE_ME
+user_pw: CHANGE_ME
+user_email: CHANGE_ME
 user_project: ocp311_tamlab
 
 
@@ -13,18 +13,17 @@ user_project: ocp311_tamlab
 master_vms: 3
 infra_vms: 3
 app_vms: 2
-cluster_name: ocp3110
+cluster_name: ocp311
 vm_image: RHEL7
 internal_dns_domain: host.local  #(default: example.com)
-#internal_dns_domain: gsslab.brq2.redhat.com
 tamlab_dns_domain: tamlab.brq.redhat.com
 
 master_node_prefix: master
-master_node_flavor: master_big
+master_node_flavor: master_small
 infra_node_prefix: infra
-infra_node_flavor: node_big
+infra_node_flavor: node_small
 app_node_prefix: app
-app_node_flavor: node_big
+app_node_flavor: node_small
 lb_node_prefix: lb
 lb_node_flavor: node_small
 

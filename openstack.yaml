@@ -16,6 +16,10 @@ auth_api: 3
 admin_project: admin
 
 
+# tamlab_dns_server
+tamlab_dns_server_ip: 
+tamlab_dns_server_user: 
+tamlab_dns_server_pass: 
 
 
 
@@ -28,6 +32,7 @@ os_admin:
       project_name: "{{ admin_project }}"
       user_domain_name: "{{ user_domain }}"
       project_domain_name: "{{ project_domain }}"
+  cacert: "{{ lookup( 'env', 'PWD') }}/vars/brq-tamlab-ca.pem"
   auth_type: password
   region_name: "{{ region }}"
   auth_version: "{{ auth_api }}"
@@ -40,6 +45,7 @@ os_project:
       project_name: "{{ user_project }}"
       user_domain_name: "{{ user_domain }}"
       project_domain_name: "{{ project_domain }}"
+  cacert: "{{ lookup( 'env', 'PWD') }}/vars/brq-tamlab-ca.pem"
   auth_type: password
   region_name: "{{ region }}"
   auth_version: "{{ auth_api }}"

@@ -62,7 +62,12 @@
 
 - name: Update LB pool for ingress
   import_playbook: ingress-haproxy.yaml
- 
+
+- hosts: masters[0]
+  gather_facts: no
+  tasks:
+  - name: Give Cluster Admin user to joe
+    shell: "oc adm policy add-cluster-role-to-user cluster-admin joe" 
 #- hosts: localhost
 #  gather_facts: no
 #  tasks:

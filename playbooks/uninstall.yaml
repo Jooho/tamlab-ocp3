@@ -8,7 +8,7 @@
     include_role: 
       name: manage-instance
     vars:
-      instance_name: "{{ master_node_prefix }}_{{ num }}.{{ cluster_name }}.{{ internal_dns_domain }}"
+      instance_name: "{{ master_node_prefix }}-{{ num }}.{{ cluster_name }}.{{ internal_dns_domain }}"
       instance_image: "{{ vm_image }}"
       instance_flavor: "{{ master_node_flavor }}"
       ocp_group: master
@@ -21,7 +21,7 @@
     include_role:
       name: manage-instance
     vars:
-      instance_name: "{{ infra_node_prefix }}_{{ num }}.{{ cluster_name }}.{{ internal_dns_domain }}"
+      instance_name: "{{ infra_node_prefix }}-{{ num }}.{{ cluster_name }}.{{ internal_dns_domain }}"
       instance_image: "{{ vm_image }}"
       instance_flavor: "{{ infra_node_flavor }}"
       ocp_group: infra
@@ -34,7 +34,7 @@
     include_role:
       name: manage-instance
     vars:
-      instance_name: "{{ app_node_prefix }}_{{ num }}.{{ cluster_name }}.{{ internal_dns_domain }}"
+      instance_name: "{{ app_node_prefix }}-{{ num }}.{{ cluster_name }}.{{ internal_dns_domain }}"
       instance_image: "{{ vm_image }}"
       instance_flavor: "{{ app_node_flavor }}"
       ocp_group: app
@@ -72,4 +72,14 @@
       vars:
         op: delete
     when: retest is not defined
+
+- hosts: tamlab_dns_server
+  gather_facts: no
+  become: yes
+  tasks:
+  - import_role:
+      name: tamlab-dns-operate
+    vars:
+      op: delete
+      lb_ip: "dump"
 

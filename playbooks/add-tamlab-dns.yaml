@@ -1,9 +1,17 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Add tamlab_dns_server info to memory
+    add_host:
+      name: "tamlab_dns_server"
+      ansible_host: "{{ tamlab_dns_server_ip }}"
+      ansible_ssh_user: "{{ tamlab_dns_server_user }}"
+      ansible_ssh_pass: "{{ tamlab_dns_server_pass }}"
+   
+
 - hosts: tamlab_dns_server
   gather_facts: no
   become: yes
-  pre_tasks:
-  - debug: msg="{{ hostvars[groups.lb.0].ansible_host}}"
-    delegate_to: localhost
   tasks:  
   - import_role:
       name: tamlab-dns-operate

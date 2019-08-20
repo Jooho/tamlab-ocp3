@@ -33,4 +33,4 @@ tamlab_dns_server
 {% endif %}
 
 [tamlab_dns_server]
-10.37.192.157 ansible_user=root
+{{ tamlab_dns_server_ip }} ansible_user={{ tamlab_dns_server_user }} ansible_ssh_pass={{ tamlab_dns_server_pass }}

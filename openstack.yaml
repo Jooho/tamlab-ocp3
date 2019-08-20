@@ -17,9 +17,9 @@ admin_project: admin
 
 
 # tamlab_dns_server
-tamlab_dns_server_ip: 
-tamlab_dns_server_user: 
-tamlab_dns_server_pass: 
+tamlab_dns_server_ip: CHANGE_ME
+tamlab_dns_server_user: CHANGE_ME
+tamlab_dns_server_pass: CHANGE_ME
 
 
 

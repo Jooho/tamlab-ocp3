@@ -14,4 +14,8 @@
     line: "{{ haproxy_conf.stdout }}"
     regex: '^listen ingress-http$'
     dest: "{{ haproxy_conf_path }}"
-    
+
+- name: Restart haproxy
+  systemd:
+    state: restarted
+    name: haproxy    

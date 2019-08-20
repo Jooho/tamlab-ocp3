@@ -1,0 +1,3 @@
+[tamlab_dns_server]
+10.37.192.157 ansible_user=root ansible_password=redhat
+

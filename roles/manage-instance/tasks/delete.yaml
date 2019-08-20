@@ -31,13 +31,14 @@
      name: "{{ instance_name }}"
      network: "{{ network_name }}"
 
-#- name: Delete floating ip for node
-#  os_floating_ip:
-#     cloud: "{{ os_project }}"
-#     state: absent
-#     reuse: yes
-#     server: "{{ instance_name }}"
-#     network: "{{ external_network_name }}"
-#     wait: true
-#     timeout: 180
-
+- name: Delete floating ip for node
+  os_floating_ip:
+     cloud: "{{ os_project }}"
+     state: absent
+     reuse: yes
+     server: "{{ instance_name }}"
+     network: "{{ external_network_name }}"
+     wait: true
+     timeout: 180
+  ignore_errors: yes
+  

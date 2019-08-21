@@ -2,17 +2,20 @@
 ##### Mandatory #####
 
 ## Openstack
-user_name: jlee
+user_name: ocp
 user_pw: redhat
 user_email: jlee@redhat.com
 user_project: ocp311_tamlab
 
 
 ##### Optional Variables #####
+# Public Key for node
+#ssh_key: "{{ lookup('env','HOME') }}/.ssh/id_rsa.pub"
+
 ## OCP
 master_vms: 3
 infra_vms: 3
-app_vms: 2
+app_vms: 3
 cluster_name: ocp3110
 vm_image: RHEL7
 internal_dns_domain: host.local  #(default: example.com)
@@ -30,10 +33,12 @@ lb_node_flavor: node_small
 
 ocp_dns_ip: 11.11.11.100
 ocp_dns_forwarder: 10.37.192.157
-ocp_cluster_subdomain: "cloudapps.{{ user_name }}.{{ cluster_name }}.{{ tamlab_dns_domain }}"
-ocp_master_cluster_public_hostname: "ocp-console.{{ user_name }}.{{ cluster_name }}.{{ tamlab_dns_domain}}"
+#ocp_cluster_subdomain: "cloudapps.{{ user_name }}.{{ cluster_name }}.{{ tamlab_dns_domain }}"
+#ocp_master_cluster_public_hostname: "ocp-console.{{ user_name }}.{{ cluster_name }}.{{ tamlab_dns_domain}}"
+ocp_cluster_subdomain: "cloudapps.osp.{{ cluster_name }}.{{ tamlab_dns_domain }}"
+ocp_master_cluster_public_hostname: "ocp-console.osp.{{ cluster_name }}.{{ tamlab_dns_domain}}"
 ocp_ansible_playbook_path: /tmp/openshift-ansible
 
 
 #osp_subnet: { name: "ocp_subnet", cidr: 21.21.21.0/24 }
-
+#ocp_storage_class_install: false

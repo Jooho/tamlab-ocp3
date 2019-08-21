@@ -1,16 +1,17 @@
 ---
-- name: Copy ocp record to tamlab dns server /var/named
+- name: Delete ocp record to tamlab dns server /var/named
   file: 
     path: "{{ conf_path }}"
     state: absent
     remote_src: yes
 
 
-- name: Add the conf file to /var/named/tamlab.brq.db
+- name: Delete the conf file to /var/named/tamlab.brq.db
   lineinfile:
     path: "{{ tamlab_brq_db_path }}"
-    regexp: "^$INCLUDE {{ user_name }}_ocp.conf"
+    regexp: "{{ user_name }}_ocp.conf"
     line: ""
+    state: absent
 
 - name: named service is reloaded
   systemd: state=reloaded name=named

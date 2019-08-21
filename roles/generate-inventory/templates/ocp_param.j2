@@ -73,13 +73,25 @@ openshift_hosted_registry_storage_volume_size=5Gi
 
 # Router
 openshift_hosted_router_selector='node-role.kubernetes.io/infra=true'
-openshift_hosted_router_replicas="2"
+openshift_hosted_router_replicas="3"
 
 # Metrics
 openshift_metrics_install_metrics={{ ocp_metric_install }}
+{% if ocp_storage_class_install|bool %}
+openshift_metrics_cassandra_storage_type=dynamic
+openshift_metrics_storage_kind=dynamic
+openshift_metrics_storage_volume_size=5Gi
+{% endif %}
 
 # Logging
-#openshift_logging_install_logging={{ ocp_logging_install }}
+openshift_logging_install_logging={{ ocp_logging_install }}
+openshift_logging_es_memory_limit=4G
+openshift_logging_es_nodeselector={"node-role.kubernetes.io/infra": "true"}
+{% if ocp_storage_class_install|bool %}
+openshift_logging_storage_kind=dynamic
+openshift_logging_es_pvc_dynamic=true
+openshift_logging_storage_volume_size=5Gi
+{% endif %}
 
 # Cluster monitoring
 openshift_cluster_monitoring_operator_install={{ ocp_prometheous_install }}

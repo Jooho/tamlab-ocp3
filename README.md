@@ -62,8 +62,17 @@ Like openshift.yaml file, this file also will be encrypted using ansible-vault
 ```
 vi openstack.yaml
 
+auth_url: CHANGE_ME
+
 # openstack cluster admin password
 admin_user_pw: CHANGE_ME
+
+
+# tamlab_dns_server
+tamlab_dns_server_ip: CHANGE_ME
+tamlab_dns_server_user: CHANGE_ME
+tamlab_dns_server_pass: CHANGE_ME
+
 ```
 
 - Encrypt the file

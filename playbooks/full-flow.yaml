@@ -68,6 +68,7 @@
   tasks:
   - name: Give Cluster Admin user to joe
     shell: "oc adm policy add-cluster-role-to-user cluster-admin joe" 
+
 #- hosts: localhost
 #  gather_facts: no
 #  tasks:

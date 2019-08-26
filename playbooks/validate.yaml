@@ -11,3 +11,10 @@
       cloud: "{{ os_admin }}"
       name: "{{ user_project }}"
       domain: "{{ user_domain }}"
+
+  - debug: var=openstack_users
+  - debug: var=openstack_projects 
+
+  - fail:
+      msg: "The project name exists. Please check it"
+   

@@ -1,3 +1,6 @@
+- name: Validate user/project
+  import_playbook: validate.yaml
+
 - name: Execute a new user process
   import_playbook: manage-user.yaml
 

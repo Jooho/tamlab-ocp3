@@ -22,13 +22,13 @@
      state: absent
      cloud: "{{ os_project }}"
      size: "{{ docker_lvm_size }}"
-     display_name: "{{ instance_name }}-docker"
+     display_name: "{{ instance_name }}-{{ user_name }}-docker"
 
 - name: Delete static port allocations if an instance does not exist
   os_port:
      state: absent
      cloud: "{{ os_project }}"
-     name: "{{ instance_name }}"
+     name: "{{ instance_name }}-{{ user_name }}"
      network: "{{ network_name }}"
 
 - name: Delete floating ip for node

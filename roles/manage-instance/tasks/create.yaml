@@ -9,7 +9,7 @@
      state: present
      cloud: "{{ os_project }}"
      size: "{{ docker_lvm_size }}"
-     display_name: "{{ instance_name }}-docker"
+     display_name: "{{ instance_name }}-{{ user_name }}-docker"
   register: docker_volume
 
 - debug: var=docker_volume
@@ -17,7 +17,7 @@
   os_port:
      state: present
      cloud: "{{ os_project }}"
-     name: "{{ instance_name }}"
+     name: "{{ instance_name }}-{{ user_name }}"
      network: "{{ network_name }}"
      security_groups:
      -  "{{ security_grp_name }}"
@@ -29,7 +29,7 @@
   os_port:
      state: present
      cloud: "{{ os_project }}"
-     name: "{{ instance_name }}"
+     name: "{{ instance_name }}-{{ user_name }}"
      network: "{{ network_name }}"
      security_groups:
      -  "{{ security_grp_name }}"
@@ -52,10 +52,10 @@
      wait: yes
      timeout: 300
      nics:
-       - port-name: "{{ instance_name }}"
+       - port-name: "{{ instance_name }}-{{ user_name }}"
      auto_ip: no
      volumes:
-     - "{{ instance_name }}-docker"
+     - "{{ instance_name }}-{{ user_name }}-docker"
 #     meta:
 #       hostname: "{{ instance_name }}.{{ dns_domain }}"
 #     userdata: |

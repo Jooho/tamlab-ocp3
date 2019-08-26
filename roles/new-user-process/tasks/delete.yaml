@@ -1,21 +1,21 @@
 - name: Delete router
   os_router:
     state: absent
-    cloud: "{{ os_admin }}"
+    cloud: "{{ os_project }}"
     name: "{{ router_name }}"
     project: "{{ user_project }}"
 
 - name: Delete subnet
   os_subnet:
     state: absent
-    cloud: "{{ os_admin }}"
+    cloud: "{{ os_project }}"
     name: "{{ osp_subnet.name }}"
     project: "{{ user_project }}"
 
 - name: Delete network
   os_network:
     state: absent
-    cloud: "{{ os_admin }}"
+    cloud: "{{ os_project }}"
     name: "{{ network_name }}"
     project: "{{ user_project }}"
 
@@ -28,7 +28,7 @@
 - name: Delete Security Group Rules
   os_security_group_rule:
     state: absent
-    cloud: "{{ os_admin }}"
+    cloud: "{{ os_project }}"
     security_group: "{{ security_grp_name }}"
     project: "{{ user_project }}"
     protocol: "{{ item.protocol }}"
@@ -39,14 +39,14 @@
 - name: Delete security grp
   os_security_group:
     state: absent
-    cloud: "{{ os_admin }}"
+    cloud: "{{ os_project }}"
     name: "{{ security_grp_name }}"
     project: "{{ user_project }}"
 
 - name: Delete project
   os_project:
     state: absent
-    cloud: "{{ os_admin }}"
+    cloud: "{{ os_project }}"
     name: "{{ user_project }}"
 
 - name: Delete user

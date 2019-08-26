@@ -43,14 +43,14 @@
 - name: Create Security Group for OCP3
   os_security_group:
     state: present
-    cloud: "{{ os_admin }}"
+    cloud: "{{ os_project }}"
     name: "{{ security_grp_name }}"
     project: "{{ user_project }}"
     description: Security Group for OCP3
 
 - name: Add Security Group Rules
   os_security_group_rule:
-     cloud: "{{ os_admin }}"
+     cloud: "{{ os_project }}"
      security_group: "{{ security_grp_name }}"
      project: "{{ user_project }}"
      protocol: "{{ item.protocol }}"
@@ -61,7 +61,7 @@
 - name: Create vm flavors
   os_nova_flavor:
      state: present
-     cloud: "{{ os_admin }}"
+     cloud: "{{ os_project }}"
      name: "{{ item.name }}"
      ram: "{{ item.ram }}"
      vcpus: "{{ item.vcpus }}"
@@ -73,7 +73,7 @@
 - name: Add network
   os_network:
      state: present
-     cloud: "{{ os_admin }}"
+     cloud: "{{ os_project }}"
      name: "{{ network_name }}"
      project: "{{ user_project }}"
      shared: no
@@ -82,7 +82,7 @@
 - name: Add subnet to network
   os_subnet:
      state: present
-     cloud: "{{ os_admin }}"
+     cloud: "{{ os_project }}"
      project: "{{ user_project }}"
      network_name: "{{ network_name }}"
      name: "{{ osp_subnet.name }}"
@@ -99,7 +99,7 @@
 - name: Create router for private and external routing
   os_router:
      state: present
-     cloud: "{{ os_admin }}"
+     cloud: "{{ os_project }}"
      name: "{{ router_name }}"
      project: "{{ user_project }}"
      network: "{{ external_network_name }}"

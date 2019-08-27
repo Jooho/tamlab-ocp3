@@ -1,3 +1,6 @@
+- name: Validate user/project
+  import_playbook: validate.yaml
+
 - name: Execute a new user process
   import_playbook: manage-user.yaml
 
@@ -58,7 +61,8 @@
   import_playbook: ocp-install.yaml
 
 - name: Update TAMLAB DNS server for external access
-  import_playbook: add-tamlab-dns.yaml
+  import_playbook: manage-tamlab-dns.yaml
+  when: tamlab_dns_update|bool
 
 - name: Update LB pool for ingress
   import_playbook: ingress-haproxy.yaml

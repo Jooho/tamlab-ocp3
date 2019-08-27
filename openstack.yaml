@@ -24,8 +24,6 @@ tamlab_dns_server_user: CHANGE_ME
 tamlab_dns_server_pass: CHANGE_ME
 
 
-
-
 ############## Do not update ##################
 os_admin:
   auth:

@@ -1,6 +1,0 @@
-- hosts: all
-  gather_facts: no
-  tasks:
-  - name: Attach subscription
-    include_role:
-      name: subscription

@@ -1,9 +1,0 @@
----
-
-- name: Create a instance
-  import_tasks: ./create.yaml
-  when: op == 'create'
-
-- name: Delete a instance
-  import_tasks: ./delete.yaml
-  when: op == 'delete'

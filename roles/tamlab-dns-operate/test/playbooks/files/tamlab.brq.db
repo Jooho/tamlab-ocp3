@@ -1,8 +1,0 @@
-$ORIGIN jhouse.tamlab.brq.redhat.com.
-testdns         IN      A       10.10.11.40
-
-$ORIGIN apps.jhouse.tamlab.brq.redhat.com.
-*               IN      A       10.10.11.41
-
-
-

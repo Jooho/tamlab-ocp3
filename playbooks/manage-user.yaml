@@ -1,8 +1,0 @@
----
-- hosts: localhost
-  gather_facts: no
-  tasks:
-  - import_role:
-      name: new-user-process
-    vars:
-      intrim_dns_server: "{{ ocp_dns_ip }}"

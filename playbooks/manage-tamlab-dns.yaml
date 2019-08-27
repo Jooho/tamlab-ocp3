@@ -11,11 +11,25 @@
 
 - hosts: tamlab_dns_server
   gather_facts: no
+  vars:
+    cmd: install
   become: yes
+  pre_tasks:
+  - debug: var=cmd
   tasks:  
-  - import_role:
+  - name: Add dns conf to tamlab dns
+    import_role:
       name: tamlab-dns-operate
     vars:
       op: create
       lb_ip: "{{ hostvars[groups.lb.0].ansible_host }}"
+    when: cmd == 'install'
 
+  - name: Delete dns conf from tamlab dns
+    import_role:
+      name: tamlab-dns-operate
+    vars:
+      op: delete
+      lb_ip: "{{ hostvars[groups.lb.0].ansible_host }}"
+    when: cmd == 'uninstall'
+   

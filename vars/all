@@ -19,7 +19,7 @@ user_project: "ocp311_tamlab_{{ user_name }}"
 master_vms: 3
 infra_vms: 3
 app_vms: 2
-cluster_name: ocp3110
+cluster_name: ocp311
 vm_image: RHEL7
 internal_dns_domain: host.local  #(default: example.com)
 

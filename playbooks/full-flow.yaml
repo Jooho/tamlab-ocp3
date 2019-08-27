@@ -5,7 +5,7 @@
   import_playbook: manage-user.yaml
 
 - name: Create VMs(masters/nodes/lb<util>)
-  import_playbook: create-vms.yaml
+  import_playbook: manage-vms.yaml
 
 - name: Generate ansible inventory file
   import_playbook: generate-ansible-inventory.yaml

@@ -1,0 +1,57 @@
+- hosts: localhost
+  gather_facts: no
+  pre_tasks: 
+  - set_fact:
+      op: delete
+    when: cmd == 'uninstall'
+  tasks: 
+  - name: Handle Master
+    include_role:
+      name: manage-instance
+    vars:
+      instance_name: "{{ user_name }}-{{ master_node_prefix }}-{{ num }}.{{ cluster_name }}.{{ internal_dns_domain }}"
+      instance_image: "{{ vm_image }}"
+      instance_flavor: "{{ master_node_flavor }}"
+      ocp_group: master
+    loop: "{{ range(1,master_vms|int + 1,1)|list }}"
+    loop_control:
+      loop_var: num
+
+  - name: Handle Infra
+    include_role:
+      name: manage-instance
+    vars:
+      instance_name: "{{ user_name }}-{{ infra_node_prefix }}-{{ num }}.{{ cluster_name }}.{{ internal_dns_domain }}"
+      instance_image: "{{ vm_image }}"
+      instance_flavor: "{{ infra_node_flavor }}"
+      ocp_group: infra
+    loop: "{{ range(1,infra_vms|int + 1,1)|list }}"
+    loop_control:
+      loop_var: num
+
+  - name: Handle App
+    include_role:
+      name: manage-instance
+    vars:
+      instance_name: "{{ user_name }}-{{ app_node_prefix }}-{{ num }}.{{ cluster_name }}.{{ internal_dns_domain }}"
+      instance_image: "{{ vm_image }}"
+      instance_flavor: "{{ app_node_flavor }}"
+      ocp_group: app
+    loop: "{{ range(1,app_vms|int + 1,1)|list }}"
+    loop_control:
+      loop_var: num
+
+  - name: Handle LB(Util node)
+    include_role:
+      name: manage-instance
+    vars:
+      instance_name: "{{ user_name }}-{{ lb_node_prefix }}.{{ cluster_name }}.{{ internal_dns_domain }}"
+      instance_image: "{{ vm_image }}"
+      instance_flavor: "{{ lb_node_flavor }}"
+      fixed_ip: "{{ osp_subnet.cidr | next_nth_usable(100) }}"
+      ocp_group: lb
+
+  - name: Give some time to start LB up
+    pause:
+      minutes: 1
+    when: op != 'delete'

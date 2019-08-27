@@ -1,0 +1,11 @@
+op: create
+tamlab_brq_db_path: /var/named/tamlab.brq.db
+conf_path: /var/named/{{ user_name }}_ocp.conf
+ssh_key: "{{ lookup('env','HOME') }}/.ssh/id_rsa.pub"
+
+tamlab_dns_server_user: root
+
+## Requirement
+# user_name
+# lb_ip
+# ocp_cluster_subdomain

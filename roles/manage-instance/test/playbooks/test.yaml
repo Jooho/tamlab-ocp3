@@ -1,0 +1,13 @@
+---
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+  - ../openstack.yaml
+  - ../vars.yaml
+  pre_tasks:
+  - import_role:
+      name: new-user-process
+    when: retest is not defined
+  tasks:
+  - import_role:
+      name: manage-instance

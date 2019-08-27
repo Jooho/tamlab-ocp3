@@ -1,0 +1,2 @@
+user_name: manage-haproxy_user
+haproxy_conf_path: /tmp/haproxy_test

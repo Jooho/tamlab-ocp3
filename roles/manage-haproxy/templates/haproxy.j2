@@ -1,0 +1,23 @@
+
+listen ingress-http
+    bind *:80
+    mode tcp
+    option tcplog
+    option tcp-check
+{% for item in groups.nodes -%}
+    {% if hostvars[item].openshift_node_group_name == 'node-config-infra' -%}
+    server infra{{loop.index|int - 2 }} {{ hostvars[item].private_v4 }}:80 check
+    {% endif %}
+{% endfor %}
+
+listen ingress-https
+    bind *:443
+    mode tcp
+    option tcplog
+    option tcp-check
+{% for item in groups.nodes -%}
+    {% if hostvars[item].openshift_node_group_name == 'node-config-infra' -%}
+    server infra{{loop.index - 2}} {{ hostvars[item].private_v4 }}:443 check
+    {% endif %}
+{% endfor %}
+

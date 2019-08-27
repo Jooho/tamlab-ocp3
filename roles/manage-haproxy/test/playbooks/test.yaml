@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+  gather_facts: no
+  pre_tasks:
+  - copy: 
+     src: haproxy.cfg
+     dest: "{{ haproxy_conf_path }}"
+   
+  tasks:
+  - import_role:
+      name: manage-haproxy
+    

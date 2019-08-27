@@ -1,0 +1,4 @@
+rewrite_conf: false
+rewrite_forward_conf: false
+dns_conf_path: /etc/dnsmasq.d
+dns_ops: install

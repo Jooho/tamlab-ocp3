@@ -1,0 +1,9 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - file: 
+      path: "{{ item }}"
+      state: absent
+    with_items:
+    - "{{ hosts_dest_path }}"
+    - "{{ ocp_hosts_dest_path }}"

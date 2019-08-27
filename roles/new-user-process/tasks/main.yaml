@@ -1,0 +1,9 @@
+---
+- name: Create a new user
+  import_tasks: ./create.yaml
+  when: op == 'create'
+
+- name: Delete a new user
+  import_tasks: ./delete.yaml
+  when: op == 'delete'
+

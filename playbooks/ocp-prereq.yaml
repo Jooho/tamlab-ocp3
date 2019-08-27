@@ -1,0 +1,10 @@
+- name: Install OCP Host Pre-Requisites
+  hosts: all
+  gather_facts: no
+  become: true
+  pre_tasks:
+    - debug: var=group_names
+  roles:
+    - { role: 'openshift-prerequisites', node_type: 'ocp-host', when: "inventory_hostname in groups['masters'] or inventory_hostname in groups['nodes'] or inventory_hostname in groups['etcd']"  }
+    - { role: 'openshift-prerequisites', node_type: 'ocp-lb', when: "'lb' in groups and inventory_hostname in groups['lb']" }
+

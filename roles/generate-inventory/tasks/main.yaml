@@ -1,0 +1,25 @@
+---
+
+- name: Generate hosts file
+  template: src=ocp_hosts.j2 dest="/tmp/hosts_{{ user_name }}" backup=yes
+
+- name: Generate hosts file for reference
+  template: src=hosts.j2 dest="{{ hosts_dest_path }}" backup=yes
+
+- name: Copy OCP conf /tmp/.
+  template: src=ocp_param.j2 dest="/tmp/ocp_param_{{ user_name }}"
+
+- name: Load OCP configuration
+  command: "cat /tmp/ocp_param_{{ user_name }}"
+  register: "ocp_conf"
+
+- name: Add ocp cluster parameters into hosts file
+  lineinfile:
+    path: "/tmp/hosts_{{ user_name }}"
+    line: "{{ocp_conf.stdout}}"
+    insertafter: "OSEv3:vars"
+
+- name: Copy ocp hosts file to a right place. 
+  copy: 
+    src: "/tmp/hosts_{{ user_name }}"
+    dest: "{{ ocp_hosts_dest_path }}"

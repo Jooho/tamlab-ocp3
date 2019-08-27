@@ -1,0 +1,56 @@
+- hosts: lb,util
+  gather_facts: no
+  pre_tasks:
+  - name: install dnsmasq
+    import_role:
+      name: dnsmasq_operate
+    vars:
+      dns_ops: install
+  tasks:
+  - name: Set DNSMasq for public master url
+    import_role:
+      name: dnsmasq_operate
+    vars:
+      rewrite_conf: yes
+      rewrite_forward_conf: yes
+      forwarder_dns: "{{ ocp_dns_forwarder }}"
+      dns_conf_name: OCP311
+      dns_ops: add
+      new_ip: "{{ hostvars[groups.lb.0].ansible_host }}"
+      new_hostname: "{{ ocp_master_cluster_public_hostname }}"
+
+  - name: Set DNSMasq for private master url
+    import_role:
+      name: dnsmasq_operate
+    vars:
+      rewrite_conf: no
+      rewrite_forward_conf: no
+      dns_conf_name: OCP311
+      dns_ops: add
+      new_ip: "{{ ocp_dns_ip }}"
+      new_hostname: "master-private.{{ user_name }}.{{ internal_dns_domain }}"
+
+  - name: Set DNSMasq for subdomain 
+    import_role:
+      name: dnsmasq_operate
+    vars:
+      rewrite_conf: no
+      rewrite_forward_conf: no
+      dns_conf_name: OCP311
+      dns_ops: add
+      new_ip: "{{ hostvars[groups.lb.0].ansible_host }}"
+      new_hostname: ".{{ ocp_cluster_subdomain }}"
+
+  - name: Set DNSMasq for hostname
+    include_role:
+      name: dnsmasq_operate
+    vars:
+      rewrite_conf: no
+      rewrite_forward_conf: no
+      dns_conf_name: OCP311
+      dns_ops: add
+      new_ip: "{{ hostvars[item].private_v4 }}"
+      new_hostname: "{{ item }}"
+    with_items:
+    - "{{ groups['all'] }}"
+ 

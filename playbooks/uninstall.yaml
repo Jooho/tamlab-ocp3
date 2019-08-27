@@ -1,0 +1,43 @@
+- name: Delete VMs(masters/nodes/lb<util>)
+  import_playbook: manage-vms.yaml
+
+- hosts: localhost
+  gather_facts: no
+  vars:
+    op: delete
+  vars_files:
+  - ../openstack.yaml
+  - ../vars/all
+  tasks:
+  - name: Delete hosts files
+    shell: "rm -rf {{ item }}"
+    with_items:
+    - "{{ lookup('env','PWD')}}/hosts*"
+    - "{{ lookup('env','PWD')}}/ocp_hosts"
+    ignore_errors: yes
+
+  - name: Create null hosts file
+    file:
+      path: "{{ lookup('env','PWD')}}/hosts"
+      state: touch
+
+  - block:
+    - import_role:
+        name: new-user-process
+      vars:
+        op: delete
+    when: retest is not defined
+
+- import_playbook: ./manage-tamlab-dns.yaml
+
+
+#- hosts: tamlab_dns_server
+#  gather_facts: no
+#  become: yes
+#  tasks:
+#  - import_role:
+#      name: tamlab-dns-operate
+#    vars:
+#      op: delete
+#      lb_ip: "dump"
+

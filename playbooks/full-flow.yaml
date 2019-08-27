@@ -1,0 +1,87 @@
+- name: Validate user/project
+  import_playbook: validate.yaml
+
+- name: Execute a new user process
+  import_playbook: manage-user.yaml
+
+- name: Create VMs(masters/nodes/lb<util>)
+  import_playbook: manage-vms.yaml
+
+- name: Generate ansible inventory file
+  import_playbook: generate-ansible-inventory.yaml
+
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Wait for lb is running
+    wait_for: 
+      host: "{{ hostvars[groups.lb.0].ansible_host }}"
+      port: 22
+    when: master_vms >1
+  
+  - name: Wait for util is running
+    wait_for: 
+      host: "{{ hostvars[groups.util.0].ansible_host }}"
+      port: 22
+    when: master_vms == 1
+
+- name: Update resolv.conf temperarily 
+  hosts: all
+  become: yes
+  gather_facts: no
+  tasks:
+  - copy:
+      dest: /etc/resolv.conf
+      content: |
+        nameserver {{ ocp_dns_forwarder }}
+      backup: yes
+
+- name: Attach subscription
+  import_playbook: attach-subscription.yaml
+
+- name: DNS setup (install/config)
+  import_playbook: setup-dnsmasq.yaml
+
+- name: Update resolv.conf to point intrim DNS server
+  hosts: masters,nodes
+  become: yes
+  gather_facts: no
+  tasks:
+  - copy:
+      dest: /etc/resolv.conf
+      content: |
+        nameserver {{ ocp_dns_ip }}
+      backup: yes
+
+
+- name: Install OCP Host Pre-Requisites
+  import_playbook: ocp-prereq.yaml 
+
+- name: Install OCP
+  import_playbook: ocp-install.yaml
+
+- name: Update TAMLAB DNS server for external access
+  import_playbook: manage-tamlab-dns.yaml
+  when: tamlab_dns_update|bool
+
+- name: Update LB pool for ingress
+  import_playbook: ingress-haproxy.yaml
+
+- hosts: masters[0]
+  gather_facts: no
+  tasks:
+  - name: Give Cluster Admin user to joe
+    shell: "oc adm policy add-cluster-role-to-user cluster-admin joe" 
+
+#- hosts: localhost
+#  gather_facts: no
+#  tasks:
+#  - name: Remove public ip from nodes (optional)
+#
+#- hosts: localhost
+#  gather_facts: no
+#  tasks:
+#  - name: put hosts to first master & download official ansible script
+
+
+

@@ -1,0 +1,33 @@
+[OSEv3:children]
+masters
+etcd
+nodes
+{% if (groups.masters | length) > 1 %}lb {% endif %}
+
+
+
+[masters]
+{% for item in groups.masters -%}
+{{item}} ansible_host={{ hostvars[item].ansible_host }} private_v4={{ hostvars[item].private_v4 }}
+{% endfor %}
+
+[etcd]
+{% for item in groups.masters -%}
+{{item}} ansible_host={{ hostvars[item].ansible_host }} private_v4={{ hostvars[item].private_v4 }}
+{% endfor %}
+
+[nodes]
+{% for item in groups.nodes -%}
+{{item}}  ansible_host={{ hostvars[item].ansible_host }} private_v4={{ hostvars[item].private_v4 }} openshift_node_group_name={{hostvars[item].openshift_node_group_name}}
+{% endfor %}
+
+{% if (groups.masters | length) >1 %}
+[lb]
+{{groups.lb.0}} ansible_host={{ hostvars[groups.lb.0].ansible_host }} private_v4={{ hostvars[groups.lb.0].private_v4 }}
+{% endif %}
+
+{% if (groups.masters | length) == 1 %}
+[util]
+{{groups.util.0}} ansible_host={{ hostvars[groups.util.0].ansible_host }} private_v4={{ hostvars[groups.util.0].private_v4 }}
+{% endif %}
+

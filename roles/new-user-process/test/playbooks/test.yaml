@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+  - ../openstack.yaml
+  - ../vars.yaml
+  tasks:
+  - import_role:
+      name: new-user-process
+

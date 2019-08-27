@@ -40,4 +40,4 @@ ocp_ansible_playbook_path: /tmp/openshift-ansible
 osp_subnet: { name: "ocp_subnet_{{ user_name }}", cidr: 21.21.21.0/24 }
 network_name: "ocp3_network_{{ user_name }}"
 router_name: "ocp3_router_{{ user_name }}"
-ignore_validate: true
+ignore_validate: false

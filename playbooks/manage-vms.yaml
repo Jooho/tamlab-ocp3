@@ -1,11 +1,15 @@
 - hosts: localhost
   gather_facts: no
+  pre_tasks: 
+  - set_fact:
+      op: delete
+    when: cmd == 'uninstall'
   tasks: 
-  - name: Create Master
+  - name: Handle Master
     include_role:
       name: manage-instance
     vars:
-      instance_name: "{{ master_node_prefix }}-{{ num }}.{{ cluster_name }}.{{ internal_dns_domain }}"
+      instance_name: "{{ user_name }}-{{ master_node_prefix }}-{{ num }}.{{ cluster_name }}.{{ internal_dns_domain }}"
       instance_image: "{{ vm_image }}"
       instance_flavor: "{{ master_node_flavor }}"
       ocp_group: master
@@ -13,11 +17,11 @@
     loop_control:
       loop_var: num
 
-  - name: Create Infra
+  - name: Handle Infra
     include_role:
       name: manage-instance
     vars:
-      instance_name: "{{ infra_node_prefix }}-{{ num }}.{{ cluster_name }}.{{ internal_dns_domain }}"
+      instance_name: "{{ user_name }}-{{ infra_node_prefix }}-{{ num }}.{{ cluster_name }}.{{ internal_dns_domain }}"
       instance_image: "{{ vm_image }}"
       instance_flavor: "{{ infra_node_flavor }}"
       ocp_group: infra
@@ -25,11 +29,11 @@
     loop_control:
       loop_var: num
 
-  - name: Create App
+  - name: Handle App
     include_role:
       name: manage-instance
     vars:
-      instance_name: "{{ app_node_prefix }}-{{ num }}.{{ cluster_name }}.{{ internal_dns_domain }}"
+      instance_name: "{{ user_name }}-{{ app_node_prefix }}-{{ num }}.{{ cluster_name }}.{{ internal_dns_domain }}"
       instance_image: "{{ vm_image }}"
       instance_flavor: "{{ app_node_flavor }}"
       ocp_group: app
@@ -37,16 +41,17 @@
     loop_control:
       loop_var: num
 
-  - name: Create LB(Util node)
+  - name: Handle LB(Util node)
     include_role:
       name: manage-instance
     vars:
-      instance_name: "{{ lb_node_prefix }}.{{ cluster_name }}.{{ internal_dns_domain }}"
+      instance_name: "{{ user_name }}-{{ lb_node_prefix }}.{{ cluster_name }}.{{ internal_dns_domain }}"
       instance_image: "{{ vm_image }}"
       instance_flavor: "{{ lb_node_flavor }}"
-      fixed_ip: "11.11.11.100"
+      fixed_ip: "{{ osp_subnet.cidr | next_nth_usable(100) }}"
       ocp_group: lb
 
   - name: Give some time to start LB up
     pause:
       minutes: 1
+    when: op != 'delete'

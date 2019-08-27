@@ -1,3 +1,4 @@
+
 # openstack auth URL
 auth_url: http://<IP>:<PORT>
 # openstack cluster admin user
@@ -17,10 +18,10 @@ admin_project: admin
 
 
 # tamlab_dns_server
+tamlab_dns_update: yes
 tamlab_dns_server_ip: CHANGE_ME
 tamlab_dns_server_user: CHANGE_ME
 tamlab_dns_server_pass: CHANGE_ME
-
 
 
 ############## Do not update ##################
@@ -32,7 +33,7 @@ os_admin:
       project_name: "{{ admin_project }}"
       user_domain_name: "{{ user_domain }}"
       project_domain_name: "{{ project_domain }}"
-  cacert: "{{ lookup( 'env', 'PWD') }}/vars/brq-tamlab-ca.pem"
+  cacert: "CHANGE_ME"
   auth_type: password
   region_name: "{{ region }}"
   auth_version: "{{ auth_api }}"
@@ -45,7 +46,7 @@ os_project:
       project_name: "{{ user_project }}"
       user_domain_name: "{{ user_domain }}"
       project_domain_name: "{{ project_domain }}"
-  cacert: "{{ lookup( 'env', 'PWD') }}/vars/brq-tamlab-ca.pem"
+  cacert: "CHANGE_ME"
   auth_type: password
   region_name: "{{ region }}"
   auth_version: "{{ auth_api }}"

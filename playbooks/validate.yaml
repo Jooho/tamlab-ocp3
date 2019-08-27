@@ -1,10 +1,10 @@
 - hosts: localhost
   gather_facts: no
   tasks:
-  - name: Gather user
-    os_user_facts:
-      cloud: "{{ os_admin }}"
-      name: "{{ user_name }}"
+#  - name: Gather user
+#    os_user_facts:
+#      cloud: "{{ os_admin }}"
+#      name: "{{ user_name }}"
 
   - name: Gather project
     os_project_facts:
@@ -12,9 +12,12 @@
       name: "{{ user_project }}"
       domain: "{{ user_domain }}"
 
-  - debug: var=openstack_users
+#  - debug: var=openstack_users
   - debug: var=openstack_projects 
 
   - fail:
       msg: "The project name exists. Please check it"
+    when: 
+    - not ignore_validate|bool and openstack_projects|length > 0 
+
    

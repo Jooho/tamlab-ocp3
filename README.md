@@ -1,6 +1,6 @@
-# Deploy OpenShift 3.11 on TAM LAB(BRQ)
+# Deploy OpenShift 3.11 on OpenStack
 
-This doc explains how to deploy openshift 3.11 on BRQ tamlab. 
+This doc explains how to deploy openshift 3.11 on OpenStack
 
 In order to use this script, you need to know [OpenShift Service Account](https://access.redhat.com/terms-based-registry) so please prepare it at first.
 
@@ -9,19 +9,18 @@ If you know sa_name, you can get the information using the following URL
 https://access.redhat.com/terms-based-registry/#/token/${sa_name}
 ```
 
-**NOTE:** This script creates all objects from the scratch and delete them all. At the moment, tamlab did not integrate with corp LDAP so this script will create even user and the user will be removed when it uninstalls.
-
 
 ## Steps
 
 ### Pre-requisites
 
-- Install openstackclient
+- Install openstackclient(Fedora 28)
 ```
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 python get-pip.py
 pip install python-openstackclient
 ```
+
 - Clone git repository
 ```
 git clone https://github.com/Jooho/tamlab-ocp3.git
@@ -43,10 +42,13 @@ vi openshift.yaml
 
 subs_id: 'CHANGE_ME'
 subs_pw: 'CHANGE_ME'
-
+...
 oreg_auth_user_name: "CHANGE_ME"
 oreg_auth_token: 'CHANGE_ME'
 ```
+**NOTE** The subscription have to have a right permission to attach OpenShift repositories.
+This script try to attach this subscription *Red Hat OpenShift Container Platform for Certified Cloud and Service Providers*. If you have a different one, you have to modify this.
+
 
 - Encrypt the file
 ```
@@ -67,11 +69,11 @@ auth_url: CHANGE_ME
 # openstack cluster admin password
 admin_user_pw: CHANGE_ME
 
+# If you are using this script for your own openstack, please set this no
+tamlab_dns_update: no
 
-# tamlab_dns_server
-tamlab_dns_server_ip: CHANGE_ME
-tamlab_dns_server_user: CHANGE_ME
-tamlab_dns_server_pass: CHANGE_ME
+# If your own openstack use HTTPS, please update certificate information. If it uses HTTPS, please remove the line
+  cacert: "CHANGE_ME"
 
 ```
 
@@ -92,12 +94,16 @@ vi vars/all
 user_name: CHANGE_ME
 user_pw: CHANGE_ME
 user_email: CHANGE_ME
-user_project: CHANGE_ME
+
+# external access domain name(eg. tamlab.brq.redhat.com)
+external_dns_domain: CHANGE_ME
+# Upstream dns server IP that can resolve external dns domain 
+ocp_dns_forwarder: CHANGE_ME
 
 ```
 
 ### Install
-If you follow the above instruction, now you can deploy OCP 3.11 on tamlab.
+If you follow the above instruction, now you can deploy OCP 3.11 on openstack.
 ```
 ./install.sh
 ```
@@ -107,16 +113,14 @@ If you follow the above instruction, now you can deploy OCP 3.11 on tamlab.
 ```
 ./uninstall.sh
 ```
-**NOTE** 
-If you destroy OpenShift, you can not create an OCP cluster with the same cluster_name for **1 day**. When you want to recreate OCP, you can change cluster_name from vars/all file. Moreover, this script will delete even **project and user** as well.
-
 
 
 ## OCP Information
 
 | name            | value                                                      |
 | --------------- | ---------------------------------------------------------- |
-| web console     | https://ocp-console.{USER_NAME}.{CLUSTER_NAME}.tamlab.brq.redhat.com:8443 |
-| default user/pw | joe/redhat                                                 |
+| web console     | https://ocp-console.{USER_NAME}.{CLUSTER_NAME}.{external_dns_domain}:8443 |
+| default user    | joe, sue, test[1..10]                                                 |
+| default user pw | redhat|
 
 

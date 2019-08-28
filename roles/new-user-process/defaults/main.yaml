@@ -29,7 +29,7 @@ node_flavors:
 - { name: "node_big", ram: 8192, vcpus: 4, disk: 50 }
 
 network_name: ocp3_network
-osp_subnet: { name: "ocp_subnet", cidr: 11.11.11.0/24 }
+osp_subnet: { name: "ocp3_subnet", cidr: 11.11.11.0/24 }
 intrim_dns_server: 11.11.11.200
 router_name: ocp3_router
 external_network_name: public

@@ -53,6 +53,21 @@
         nameserver {{ ocp_dns_ip }}
       backup: yes
 
+## TAMLAB ONLY ##
+- name: Copy TAMLAB OpenStack certs
+  hosts: masters
+  become: yes
+  gather_facts: no
+  tasks:
+  - name: Copy TAMLAB OpenStack certs
+    copy: 
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+    with_items:
+    - { "src": "{{ lookup('ENV','PWD') }}/common/brq-tamlab-ca.pem", "dest": "/home/cloud-user/keystone.ca.pem" }
+    - { "src": "{{ lookup('ENV','PWD') }}/common/keystone.server.pem", "dest": "/home/cloud-user/keystone.server.pem" }
+    - { "src": "{{ lookup('ENV','PWD') }}/common/keystone.key.pem", "dest": "/home/cloud-user/keystone.key.pem" }
+   when: user_name == 'ocp'
 
 - name: Install OCP Host Pre-Requisites
   import_playbook: ocp-prereq.yaml 

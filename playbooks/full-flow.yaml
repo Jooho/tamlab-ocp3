@@ -67,7 +67,7 @@
     - { "src": "{{ lookup('env','PWD') }}/vars/brq-tamlab-ca.pem", "dest": "/home/cloud-user/keystone.ca.pem" }
     - { "src": "{{ lookup('env','PWD') }}/vars/keystone.server.pem", "dest": "/home/cloud-user/keystone.server.pem" }
     - { "src": "{{ lookup('env','PWD') }}/vars/keystone.key.pem", "dest": "/home/cloud-user/keystone.key.pem" }
-   when: user_name == 'ocp'
+    when: user_name == 'ocp'
 
 - name: Install OCP Host Pre-Requisites
   import_playbook: ocp-prereq.yaml 

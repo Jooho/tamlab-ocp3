@@ -3,6 +3,7 @@
 - name: Copy TAMLAB OpenStack certs
   hosts: masters
   become: yes
+  serial: 1
   gather_facts: no
   tasks:
   - name: Copy TAMLAB OpenStack certs
@@ -28,5 +29,10 @@
       backup: yes
     when: user_name == 'ocp'
        
-       
+  - name: Restart Masters
+    shell: "{{ item }}"
+    with_items: 
+    - "/usr/local/bin/master-restart api"
+    - "/usr/local/bin/master-restart controllers"
+    when: user_name == 'ocp'
 

@@ -1,0 +1,32 @@
+---
+## TAMLAB ONLY ##
+- name: Copy TAMLAB OpenStack certs
+  hosts: masters
+  become: yes
+  gather_facts: no
+  tasks:
+  - name: Copy TAMLAB OpenStack certs
+    copy:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+    with_items:
+    - { "src": "{{ lookup('env','PWD') }}/vars/brq-tamlab-ca.pem", "dest": "/etc/origin/master/keystone.ca.pem" }
+    - { "src": "{{ lookup('env','PWD') }}/vars/keystone.server.pem", "dest": "/etc/origin/master/keystone.server.pem" }
+    - { "src": "{{ lookup('env','PWD') }}/vars/keystone.key.pem", "dest": "/etc/origin/master/keystone.key.pem" }
+    when: user_name == 'ocp'
+
+  - name: Gather keystone information
+    shell: cat "{{ lookup('env','PWD') }}/vars/keystone"
+    register: keystone_conf 
+    when: user_name == 'ocp'
+
+  - name: Update openshift master config
+    lineinfile:
+      line: "{{ keystone_conf.stdout }}"
+      insertafter: 'identityProvider'
+      path: "/etc/origin/master/master-config.yaml"
+      backup: yes
+    when: user_name == 'ocp'
+       
+       
+

@@ -64,9 +64,9 @@
       src: "{{ item.src }}"
       dest: "{{ item.dest }}"
     with_items:
-    - { "src": "{{ lookup('ENV','PWD') }}/vars/brq-tamlab-ca.pem", "dest": "/home/cloud-user/keystone.ca.pem" }
-    - { "src": "{{ lookup('ENV','PWD') }}/vars/keystone.server.pem", "dest": "/home/cloud-user/keystone.server.pem" }
-    - { "src": "{{ lookup('ENV','PWD') }}/vars/keystone.key.pem", "dest": "/home/cloud-user/keystone.key.pem" }
+    - { "src": "{{ lookup('env','PWD') }}/vars/brq-tamlab-ca.pem", "dest": "/home/cloud-user/keystone.ca.pem" }
+    - { "src": "{{ lookup('env','PWD') }}/vars/keystone.server.pem", "dest": "/home/cloud-user/keystone.server.pem" }
+    - { "src": "{{ lookup('env','PWD') }}/vars/keystone.key.pem", "dest": "/home/cloud-user/keystone.key.pem" }
    when: user_name == 'ocp'
 
 - name: Install OCP Host Pre-Requisites

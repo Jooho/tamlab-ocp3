@@ -19,6 +19,7 @@
   - name: Gather keystone information
     shell: cat "{{ lookup('env','PWD') }}/vars/keystone"
     register: keystone_conf 
+    delegate_to: localhost
     when: user_name == 'ocp'
 
   - name: Update openshift master config

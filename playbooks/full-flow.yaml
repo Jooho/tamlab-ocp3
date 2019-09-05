@@ -1,14 +1,18 @@
 - name: Validate user/project
   import_playbook: validate.yaml
+  when: not from_ocp_install|bool 
 
 - name: Execute a new user process
   import_playbook: manage-user.yaml
+  when: not from_ocp_install|bool 
 
 - name: Create VMs(masters/nodes/lb<util>)
   import_playbook: manage-vms.yaml
+  when: not from_ocp_install|bool 
 
 - name: Generate ansible inventory file
   import_playbook: generate-ansible-inventory.yaml
+  when: not from_ocp_install|bool 
 
 - hosts: localhost
   gather_facts: no
@@ -17,13 +21,17 @@
     wait_for: 
       host: "{{ hostvars[groups.lb.0].ansible_host }}"
       port: 22
-    when: master_vms >1
-  
+    when: 
+    - master_vms >1
+    - not from_ocp_install|bool
+
   - name: Wait for util is running
     wait_for: 
       host: "{{ hostvars[groups.util.0].ansible_host }}"
       port: 22
-    when: master_vms == 1
+    when:
+    - master_vms == 1
+    - not from_ocp_install|bool
 
 - name: Update resolv.conf temperarily 
   hosts: all
@@ -35,12 +43,15 @@
       content: |
         nameserver {{ ocp_dns_forwarder }}
       backup: yes
+    when: not from_ocp_install|bool
 
 - name: Attach subscription
   import_playbook: attach-subscription.yaml
+  when: not from_ocp_install|bool
 
 - name: DNS setup (install/config)
   import_playbook: setup-dnsmasq.yaml
+  when: not from_ocp_install|bool
 
 - name: Update resolv.conf to point intrim DNS server
   hosts: masters,nodes
@@ -52,9 +63,11 @@
       content: |
         nameserver {{ ocp_dns_ip }}
       backup: yes
+      when: not from_ocp_install|bool
 
 - name: Install OCP Host Pre-Requisites
   import_playbook: ocp-prereq.yaml 
+  when: not from_ocp_install|bool
 
 - name: Install OCP
   import_playbook: ocp-install.yaml

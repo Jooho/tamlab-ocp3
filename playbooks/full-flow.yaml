@@ -63,7 +63,7 @@
       content: |
         nameserver {{ ocp_dns_ip }}
       backup: yes
-      when: not from_ocp_install|bool
+    when: not from_ocp_install|bool
 
 - name: Install OCP Host Pre-Requisites
   import_playbook: ocp-prereq.yaml 

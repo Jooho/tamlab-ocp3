@@ -65,7 +65,7 @@
   register: new_server
   when: 
   - openstack_servers|length == 0
-  - use_ssd is defined and not use_ssd|bool
+  - use_ssd is not defined or not use_ssd|bool
 
 - name: Create OpenShift an instance if it does not exist (SSD)
   os_server:

@@ -120,7 +120,7 @@
   os_server_group:
     state: present
     cloud: "{{ os_project }}"
-    name: "{{ user_name }}-server-group"
+    name: "{{ user_name }}-ocp3-server-group"
     policies:
       - anti-affinity
   register: server_group

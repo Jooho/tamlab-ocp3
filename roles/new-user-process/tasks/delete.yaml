@@ -1,3 +1,9 @@
+- name: Delete server group for SSD
+  os_server_group:
+    state: absent
+    cloud: "{{ os_project }}"
+    name: "{{ user_name }}-ocp3-server-group"
+
 - name: Delete router
   os_router:
     state: absent
@@ -55,11 +61,4 @@
     cloud: "{{ os_admin }}"
     name: "{{ user_name }}"
 
-- name: Create server group for SSD
-  os_server_group:
-    state: absent
-    cloud: "{{ os_project }}"
-    name: "{{ user_name }}-server-group"
-    policies:
-      - anti-affinity
 

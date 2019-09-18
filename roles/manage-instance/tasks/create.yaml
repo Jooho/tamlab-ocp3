@@ -85,7 +85,6 @@
      auto_ip: no
      #volumes:
      #- "{{ instance_name }}-docker"
-     terminate_volume: yes
      scheduler_hints:
        group: "{{ scheduler_hints }}"
 #     meta:

@@ -105,8 +105,6 @@
      dns_nameservers:
         - "{{ intrim_dns_server }}"
 
-
-
 - name: Create router for private and external routing
   os_router:
      state: present
@@ -117,4 +115,13 @@
      enable_snat: yes
      interfaces:
         - "{{ osp_subnet.name }}"
+
+- name: Create server group for SSD 
+  os_server_group:
+    state: present
+    cloud: "{{ os_project }}"
+    name: "{{ user_name }}-server-group"
+    policies:
+      - anti-affinity
+  register: server_group
 

@@ -65,8 +65,7 @@
   register: new_server
   when: 
   - openstack_servers|length == 0
-  - scheduler_hints is not defined
-  - use_ssd is defined and use_ssd|bool
+  - use_ssd is defined and not use_ssd|bool
 
 - name: Create OpenShift an instance if it does not exist (SSD)
   os_server:
@@ -86,7 +85,7 @@
      #volumes:
      #- "{{ instance_name }}-docker"
      scheduler_hints:
-       group: "{{ scheduler_hints }}"
+       group: "{{ server_group.id }}"
 #     meta:
 #       hostname: "{{ instance_name }}.{{ dns_domain }}"
 #     userdata: |
@@ -95,7 +94,6 @@
   register: new_server
   when: 
   - openstack_servers|length == 0
-  - scheduler_hints is defined
   - use_ssd is defined and use_ssd|bool
 
 

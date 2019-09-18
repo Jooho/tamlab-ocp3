@@ -47,7 +47,6 @@
      image: "{{ instance_image }}"
      key_name: "{{ user_name }}"
      flavor: "{{ instance_flavor }}"
-     boot_from_volume: true
      security_groups:
      -  "{{ security_grp_name }}"
      wait: yes
@@ -55,8 +54,9 @@
      nics:
        - port-name: "{{ instance_name }}"
      auto_ip: no
-     volumes:
-     - "{{ instance_name }}-docker"
+     terminate_volume: yes
+     #volumes:
+     #- "{{ instance_name }}-docker"
 #     meta:
 #       hostname: "{{ instance_name }}.{{ dns_domain }}"
 #     userdata: |
@@ -83,8 +83,9 @@
      nics:
        - port-name: "{{ instance_name }}"
      auto_ip: no
-     volumes:
-     - "{{ instance_name }}-docker"
+     #volumes:
+     #- "{{ instance_name }}-docker"
+     terminate_volume: yes
      scheduler_hints:
        group: "{{ scheduler_hints }}"
 #     meta:
@@ -98,6 +99,17 @@
   - scheduler_hints is defined
   - use_ssd is defined and use_ssd|bool
 
+
+- name: Attach docker storage for a server instance
+  os_server_volume:
+     state: present
+     cloud: "{{ os_project }}"
+     server: "{{ instance_name }}"
+     volume: "{{ instance_name }}-docker"
+     device: /dev/vdb
+  when: 
+  - openstack_servers is defined
+  - openstack_servers|length == 0
 
 - name: Add floating ip for node
   os_floating_ip:

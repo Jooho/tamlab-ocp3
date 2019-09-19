@@ -47,6 +47,8 @@
      image: "{{ instance_image }}"
      key_name: "{{ user_name }}"
      flavor: "{{ instance_flavor }}"
+     boot_from_volume: true
+     volume_size: 50
      security_groups:
      -  "{{ security_grp_name }}"
      wait: yes

@@ -13,6 +13,7 @@
      name: "{{ user_project }}"
      cores: "{{ quota_cores }}"
      ram: "{{ quota_ram }}"
+     volumes: "{{ quota_volumes }}"
 
 - name: Create user
   os_user:

@@ -2,6 +2,7 @@ op: create
 
 quota_cores: 100 
 quota_ram: 120000
+quota_volumes: 20
 
 user_roles:
 - admin

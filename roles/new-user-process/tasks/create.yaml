@@ -58,19 +58,7 @@
   with_items:
   - "{{ security_grp_rules }}"
 
-- name: Create master vm flavors
-  os_nova_flavor:
-     state: present
-     cloud: "{{ os_project }}"
-     name: "{{ item.name }}"
-     ram: "{{ item.ram }}"
-     vcpus: "{{ item.vcpus }}"
-     disk: "0"
-     ephemeral: "{{ item.disk }}"
-  with_items:
-  - "{{ master_flavors }}"
-
-- name: Create node vm flavors
+- name: Create vm flavors
   os_nova_flavor:
      state: present
      cloud: "{{ os_project }}"
@@ -79,7 +67,19 @@
      vcpus: "{{ item.vcpus }}"
      disk: "{{ item.disk }}"
   with_items:
+  - "{{ master_flavors }}"
   - "{{ node_flavors }}"
+
+#- name: Create node vm flavors
+#  os_nova_flavor:
+#     state: present
+#     cloud: "{{ os_project }}"
+#     name: "{{ item.name }}"
+#     ram: "{{ item.ram }}"
+#     vcpus: "{{ item.vcpus }}"
+#     disk: "{{ item.disk }}"
+#  with_items:
+#  - "{{ node_flavors }}"
 
 - name: Add network
   os_network:

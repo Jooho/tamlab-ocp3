@@ -18,15 +18,15 @@ security_grp_rules:
 
 
 master_flavors:
-- { name: "master_small", ram: 4096, vcpus: 2, disk: 50 }
-- { name: "master_mid", ram: 6144, vcpus: 3, disk: 50 }
-- { name: "master_big", ram: 8192, vcpus: 4, disk: 50 }
+- { name: "master_small", ram: 4096, vcpus: 2, disk: 25 }
+- { name: "master_mid", ram: 6144, vcpus: 3, disk: 25 }
+- { name: "master_big", ram: 8192, vcpus: 4, disk: 25 }
 
 
 node_flavors:
-- { name: "node_small", ram: 4096, vcpus: 2, disk: 50 }
-- { name: "node_mid", ram: 6144, vcpus: 3, disk: 50 }
-- { name: "node_big", ram: 8192, vcpus: 4, disk: 50 }
+- { name: "node_small", ram: 4096, vcpus: 2, disk: 0 }
+- { name: "node_mid", ram: 6144, vcpus: 3, disk: 0 }
+- { name: "node_big", ram: 8192, vcpus: 4, disk: 0 }
 
 network_name: ocp3_network
 osp_subnet: { name: "ocp3_subnet", cidr: 11.11.11.0/24 }

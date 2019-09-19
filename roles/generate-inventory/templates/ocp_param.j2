@@ -29,6 +29,8 @@ oreg_auth_password='{{ oreg_auth_token }}'
 openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider'}]
 openshift_master_htpasswd_users={'joe': '$apr1$e/IdW2fy$C81mY.UvlYLTjbsg3zvG./', 'sue': '$apr1$WnnI.8Ce$KDA5pr/UsmS3wtL5lEr7d/', 'test1': '$apr1$iH4G5JUy$5xQGGGYDLAU9tpO4o8bPI1', 'test2': '$apr1$oaUh9ZNg$RMRcpHTmz0ghrIjIi55aW1', 'test3': '$apr1$Hl6hpBr0$oQ94KkAM431mGMheZE0dB1', 'test4': '$apr1$Ym.y4RRX$tPsQ3w3NHEyJx4qXSmbGk.', 'test5': '$apr1$PfuXyxVC$XTRdPQ3o.RYO.AGxoizku1', 'test6': '$apr1$HoZ3BY55$.sgowHfdZioiDvD7LHI4Q.', 'test7': '$apr1$5.NV0c7e$pydr.8e.LU62cEmH14MvB/', 'test8': '$apr1$Z7pJUchB$k.hO3kBYI0GVm5mpVDXEL.', 'test9': '$apr1$jNye.X7x$dE9q3QmO1CuPFz0CoqAPa1', 'test10': '$apr1$lw2.tK0j$BGTW5/h9xGGLZatAvphah1'}
 
+# Journald
+journald_vars_to_replace=[{"var":"RateLimitBurst","val":"1000"}, {"var":"SyncIntervalSec","val":"1s"}, {"var":"Compress","val":"yes"}, {"var":"RateLimitInterval","val":"1s"}, {"var":"SystemMaxUse","val":"1G"}]
 
 # Networking
 os_sdn_network_plugin_name="redhat/openshift-ovs-multitenant"

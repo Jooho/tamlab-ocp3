@@ -65,7 +65,7 @@
      name: "{{ item.name }}"
      ram: "{{ item.ram }}"
      vcpus: "{{ item.vcpus }}"
-     disk: "0"
+     disk: "{{ item.disk }}"
      ephemeral: "0"
   with_items:
   - "{{ master_flavors }}"
@@ -79,6 +79,7 @@
 #     ram: "{{ item.ram }}"
 #     vcpus: "{{ item.vcpus }}"
 #     disk: "{{ item.disk }}"
+#     ephemeral: "0"
 #  with_items:
 #  - "{{ node_flavors }}"
 

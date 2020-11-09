@@ -86,8 +86,8 @@
      auto_ip: no
      volumes:
      - "{{ instance_name }}-docker"
-     scheduler_hints:
-       group: "{{ server_group.id }}"
+#     scheduler_hints:
+#       group: "{{ server_group.id }}"
 #     meta:
 #       hostname: "{{ instance_name }}.{{ dns_domain }}"
 #     userdata: |

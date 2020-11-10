@@ -2,7 +2,7 @@
 $ORIGIN {% for i in range(1, domain|length) -%}
 {{ domain[i] }}.
 
-{% domain[0] %}      IN      A       {{ lb_ip }}
+{{ domain[0] }}      IN      A       {{ lb_ip }}
 
 {%- endfor %}
 

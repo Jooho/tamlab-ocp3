@@ -90,14 +90,14 @@
 #  when: interim_dns.install and item.rc == 1
 #
 
-- name: Start NetworkManager and network
-  service:
-    name: "{{ item }}"
-    state: restarted
-    enabled: true
-  with_items:
-  - NetworkManager
-  - network
+#- name: Start NetworkManager and network
+#  service:
+#    name: "{{ item }}"
+#    state: restarted
+#    enabled: true
+#  with_items:
+#  - NetworkManager
+#  - network
 
 - name: Determine if firewalld is installed
   yum:
